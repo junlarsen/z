@@ -7,12 +7,12 @@ import org.springframework.context.annotation.Configuration
 import javax.sql.DataSource
 
 @Configuration
-open class FlywayConfiguration {
+class FlywayConfiguration {
   @Autowired
   lateinit var dataSource: DataSource
 
   @Bean(initMethod = "migrate")
-  open fun flyway(): Flyway = Flyway.configure()
+  fun flyway(): Flyway = Flyway.configure()
       .dataSource(dataSource)
       .locations("classpath:db/migration")
       .baselineOnMigrate(true)

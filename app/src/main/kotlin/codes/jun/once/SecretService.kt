@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 import java.util.UUID
 
 @Service
-open class SecretService(private val secretRepository: SecretRepository) {
+class SecretService(private val secretRepository: SecretRepository) {
   private val logger: Logger = LogManager.getLogger(this::class.java)
 
   fun findSecretById(id: UUID): Secret? {

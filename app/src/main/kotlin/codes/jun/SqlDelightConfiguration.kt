@@ -4,24 +4,23 @@ import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.jdbc.asJdbcDriver
 import codes.jun.pivot.PivotDatabase
 import codes.jun.pivot.SecretQueries
+import codes.jun.pivot.app.schema
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import javax.sql.DataSource
 
 @Configuration
-open class SqlDelightConfiguration {
+class SqlDelightConfiguration {
   @Autowired
   lateinit var dataSource: DataSource
 
   @Bean
-  open fun driver(): SqlDriver = dataSource.asJdbcDriver()
+  fun driver(): SqlDriver = dataSource.asJdbcDriver()
 
   @Bean
-  open fun pivot(driver: SqlDriver): PivotDatabase = PivotDatabase(driver).also {
-    PivotDatabase.Schema.create(driver)
-  }
+  fun pivot(driver: SqlDriver): PivotDatabase = PivotDatabase(driver)
 
   @Bean
-  open fun secretQueries(pivot: PivotDatabase): SecretQueries = pivot.secretQueries
+  fun secretQueries(pivot: PivotDatabase): SecretQueries = pivot.secretQueries
 }

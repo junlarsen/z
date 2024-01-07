@@ -1,11 +1,12 @@
 package codes.jun.once
 
 import codes.jun.pivot.SecretQueries
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
 import java.util.UUID
 
 @Repository
-open class SecretRepository(private val secretQueries: SecretQueries) {
+class SecretRepository(private val secretQueries: SecretQueries) {
   fun findSecretById(id: UUID): Secret? {
     val secret = secretQueries.findSecretById(id).executeAsOneOrNull()
     return secret?.let(::mapToSecret) ?: return null
