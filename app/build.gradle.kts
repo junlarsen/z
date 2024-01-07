@@ -16,12 +16,12 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter")
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("org.springframework.boot:spring-boot-starter-validation")
+  implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("org.springframework.boot:spring-boot-starter-log4j2")
   implementation("org.springframework.boot:spring-boot-starter-actuator")
   implementation("org.postgresql:postgresql:42.2.27")
-  implementation("org.mapstruct:mapstruct:1.5.5.Final")
-
-  kapt("org.mapstruct:mapstruct-processor:1.5.5.Final")
+  implementation("app.cash.sqldelight:jdbc-driver:2.0.1")
+  implementation("app.cash.sqldelight:runtime:2.0.1")
 
   testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
   testImplementation("org.junit.jupiter:junit-jupiter-engine:5.9.2")
@@ -35,12 +35,12 @@ java {
 }
 
 application {
-  mainClass.set("codes.jun.AppKt")
+  mainClass.set("codes.jun.ApplicationKt")
 }
 
 sqldelight {
   databases {
-    create("pivot") {
+    create("PivotDatabase") {
       packageName.set("codes.jun.pivot")
       dialect("app.cash.sqldelight:postgresql-dialect:2.0.1")
     }

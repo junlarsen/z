@@ -1,9 +1,8 @@
 version: '3'
 services:
-  crabtank:
+  pg:
     image: postgres:15
     restart: unless-stopped
-    container_name: pivot
     environment:
       POSTGRES_USER: local
       POSTGRES_PASSWORD: local
