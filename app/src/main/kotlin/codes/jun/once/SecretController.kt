@@ -19,6 +19,7 @@ class SecretController(private val secretService: SecretService) {
   fun get(@PathVariable("id") id: UUID): ResponseEntity<SecretResponseDto> {
     val secret = secretService.findSecretById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
     val dto = SecretResponseDto(secret.id, secret.secret, secret.expiresAt)
+    secretService.reduceRemainingViewsById(id)
     return ResponseEntity(dto, HttpStatus.OK)
   }
 
