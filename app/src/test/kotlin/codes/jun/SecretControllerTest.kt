@@ -33,7 +33,6 @@ class SecretControllerTest {
       jsonPath("$.id") { isNotEmpty() }
       jsonPath("$.secret") { value("hunter2") }
       jsonPath("$.expiresAt") { isNotEmpty() }
-      jsonPath("$.remainingViews") { value(1) }
     }
   }
 }

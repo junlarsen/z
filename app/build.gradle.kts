@@ -70,8 +70,9 @@ flyway {
   locations = arrayOf("$buildDir/resources/main/db/migration")
 }
 
-tasks.named<Test>("test") {
+tasks.test.configure {
   useJUnitPlatform()
+  dependsOn("generateMainPivotDatabaseMigrations")
 }
 
 tasks.compileKotlin.configure {
