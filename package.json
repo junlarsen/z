@@ -1,0 +1,21 @@
+{
+  "name": "@pivot/root",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "dev": "turbo run dev",
+    "fmt": "biome check --apply .",
+    "ci": "biome ci ."
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.4.1",
+    "turbo": "^1.11.3"
+  },
+  "engines": {
+    "node": ">=18.13"
+  },
+  "packageManager": "pnpm@8"
+}
