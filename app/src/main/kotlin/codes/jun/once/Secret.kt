@@ -1,6 +1,6 @@
 package codes.jun.once
 
-import codes.jun.pivot.Secrets
+import migrations.Secrets
 import java.time.OffsetDateTime
 import java.util.UUID
 
