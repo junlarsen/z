@@ -5,6 +5,7 @@ import {
   GridIcon,
   ListBulletIcon,
   LockClosedIcon,
+  MixIcon,
 } from "@radix-ui/react-icons";
 import { FC } from "react";
 import { GearApplication } from "./gear-application.tsx";
@@ -36,7 +37,7 @@ export const GearPage: FC = () => {
             href="/commute"
           />
           <GearApplication icon={ListBulletIcon} label="Todo" href="/todo" />
-          <GearApplication icon={GridIcon} label="TBA" href="#" />
+          <GearApplication icon={MixIcon} label="Dashboard" href="/dashboard" />
           <GearApplication icon={GridIcon} label="TBA" href="#" />
           <GearApplication icon={GridIcon} label="TBA" href="#" />
           <GearApplication icon={GridIcon} label="TBA" href="#" />
