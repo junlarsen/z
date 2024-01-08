@@ -22,6 +22,8 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("org.springframework.boot:spring-boot-starter-log4j2")
   implementation("org.springframework.boot:spring-boot-starter-actuator")
+  implementation("org.springframework.boot:spring-boot-starter-security")
+  implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 
   implementation("org.flywaydb:flyway-core:10.4.1")
   implementation("org.flywaydb:flyway-database-postgresql:10.4.1")
@@ -33,6 +35,7 @@ dependencies {
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0")
 
   testImplementation("org.springframework.boot:spring-boot-starter-test")
+  testImplementation("org.springframework.security:spring-security-test")
   testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
   testImplementation("org.junit.jupiter:junit-jupiter-engine:5.9.2")
   testImplementation("org.testcontainers:testcontainers:1.17.2")
@@ -69,9 +72,14 @@ tasks.test.configure {
   dependsOn("generateMainPivotDatabaseMigrations")
 }
 
+java {
+  sourceCompatibility = JavaVersion.VERSION_17
+  targetCompatibility = JavaVersion.VERSION_17
+}
+
 tasks.compileKotlin.configure {
   kotlinOptions {
-    jvmTarget = "1.8"
+    jvmTarget = "17"
   }
   dependsOn("generateMainPivotDatabaseMigrations")
 }

@@ -1,7 +1,6 @@
 package codes.jun.once
 
 import codes.jun.pivot.SecretQueries
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Repository
 import java.util.UUID
 
