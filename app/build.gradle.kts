@@ -41,12 +41,6 @@ dependencies {
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-java {
-  toolchain {
-    languageVersion.set(JavaLanguageVersion.of(20))
-  }
-}
-
 application {
   mainClass.set("codes.jun.ApplicationKt")
 }
@@ -76,6 +70,9 @@ tasks.test.configure {
 }
 
 tasks.compileKotlin.configure {
+  kotlinOptions {
+    jvmTarget = "1.8"
+  }
   dependsOn("generateMainPivotDatabaseMigrations")
 }
 
