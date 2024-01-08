@@ -34,7 +34,7 @@ class SecretService(private val secretRepository: SecretRepository) {
       throw IllegalStateException("Tried to reduce remaining views of secret with id $id, but it has no remaining views")
     }
     logger.info("Reducing remaining views of secret with id $id from ${secret.remainingViews} to ${secret.remainingViews - 1}")
-    val updatedSecret = secret.copy(remainingViews = secret.remainingViews - 1)
-    return secretRepository.updateSecretById(updatedSecret)
+    val input = SecretWrite(secret.secret, secret.expiresAt, secret.remainingViews - 1);
+    return secretRepository.updateSecretById(secret.id, input)
   }
 }

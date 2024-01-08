@@ -84,6 +84,12 @@ tasks.compileKotlin.configure {
   dependsOn("generateMainPivotDatabaseMigrations")
 }
 
+tasks.compileTestKotlin.configure {
+  kotlinOptions {
+    jvmTarget = "17"
+  }
+}
+
 configurations {
   all {
     exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")

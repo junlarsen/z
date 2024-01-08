@@ -8,16 +8,16 @@ import java.util.UUID
 class SecretRepository(private val secretQueries: SecretQueries) {
   fun findSecretById(id: UUID): Secret? {
     val secret = secretQueries.findSecretById(id).executeAsOneOrNull()
-    return secret?.let(::mapToSecret) ?: return null
+    return secret?.let(::mapToSecret)
   }
 
   fun deleteSecretById(id: UUID) {
     secretQueries.deleteSecretById(id)
   }
 
-  fun updateSecretById(input: Secret): Secret {
+  fun updateSecretById(id: UUID, input: SecretWrite): Secret {
     val secret = secretQueries.updateSecretById(
-        id = input.id,
+        id = id,
         secret = input.secret,
         expires_at = input.expiresAt,
         remaining_views = input.remainingViews,

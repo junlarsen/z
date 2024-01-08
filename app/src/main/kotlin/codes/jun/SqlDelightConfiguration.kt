@@ -4,6 +4,7 @@ import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.jdbc.asJdbcDriver
 import codes.jun.pivot.PivotDatabase
 import codes.jun.pivot.SecretQueries
+import codes.jun.pivot.TodoListQueries
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -22,4 +23,6 @@ class SqlDelightConfiguration {
 
   @Bean
   fun secretQueries(pivot: PivotDatabase): SecretQueries = pivot.secretQueries
+  @Bean
+  fun todoListQueries(pivot: PivotDatabase): TodoListQueries = pivot.todoListQueries
 }

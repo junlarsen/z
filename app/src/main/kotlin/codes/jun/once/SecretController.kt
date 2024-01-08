@@ -24,7 +24,7 @@ class SecretController(private val secretService: SecretService) {
   }
 
   @GetMapping("/{id}/preview")
-  fun preview(@PathVariable("id") id: UUID): ResponseEntity<SecretPreviewResponseDto?> {
+  fun preview(@PathVariable("id") id: UUID): ResponseEntity<SecretPreviewResponseDto> {
     val secret = secretService.findSecretById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
     val dto = SecretPreviewResponseDto(secret.id, secret.expiresAt)
     return ResponseEntity(dto, HttpStatus.OK)
