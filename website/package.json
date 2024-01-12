@@ -5,18 +5,33 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "fmt": "biome check --apply ."
   },
   "dependencies": {
+    "@mantine/charts": "^7.4.1",
+    "@mantine/core": "^7.2.2",
+    "@mantine/dates": "^7.2.2",
+    "@mantine/hooks": "^7.2.2",
+    "@mantine/modals": "^7.2.2",
+    "@mantine/notifications": "^7.2.2",
+    "@mantine/spotlight": "^7.2.2",
+    "@tabler/icons-react": "^2.45.0",
+    "@tanstack/react-query": "^5.17.9",
+    "dayjs": "^1.11.10",
     "next": "14.0.4",
     "next-auth": "^4.24.5",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "recharts": "2"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "postcss": "^8.4.31",
+    "postcss-preset-mantine": "^1.11.0",
+    "postcss-simple-vars": "^7.0.1",
     "typescript": "^5"
   }
 }
