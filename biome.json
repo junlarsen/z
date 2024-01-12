@@ -7,10 +7,12 @@
   },
   "files": {
     "ignore": [
+      "**/node_modules",
       "**/dist",
       "**/assets",
       "**/public",
       "**/__snapshots__",
+      "**/.next",
       "app/**"
     ]
   },
