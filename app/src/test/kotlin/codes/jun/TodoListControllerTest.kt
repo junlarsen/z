@@ -9,8 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User
-import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oauth2Login
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
@@ -32,7 +31,7 @@ class TodoListControllerTest {
     val dto = TodoListCreateRequestDto("Groceries")
     val json = objectMapper.writeValueAsString(dto)
     mockMvc.post("/api/todo-list") {
-      with(oauth2Login())
+      with(jwt())
       contentType = MediaType.APPLICATION_JSON
       content = json
     }.andExpect {
@@ -49,7 +48,7 @@ class TodoListControllerTest {
     val dto = TodoListCreateRequestDto("MyGroceries")
     val json = objectMapper.writeValueAsString(dto)
     mockMvc.post("/api/todo-list") {
-      with(oauth2Login())
+      with(jwt())
       contentType = MediaType.APPLICATION_JSON
       content = json
     }.andExpect {
@@ -57,7 +56,7 @@ class TodoListControllerTest {
     }
 
     mockMvc.post("/api/todo-list") {
-      with(oauth2Login())
+      with(jwt())
       contentType = MediaType.APPLICATION_JSON
       content = json
     }.andExpect {
@@ -71,7 +70,7 @@ class TodoListControllerTest {
     val list = todoListService.createTodoList(input)
 
     mockMvc.get("/api/todo-list/${list.id}") {
-      with(oauth2Login())
+      with(jwt())
       accept = MediaType.APPLICATION_JSON
     }.andExpect {
       status { isOk() }
@@ -88,7 +87,7 @@ class TodoListControllerTest {
     val list = todoListService.createTodoList(input)
 
     mockMvc.get("/api/todo-list/${list.id}") {
-      with(oauth2Login())
+      with(jwt())
       accept = MediaType.APPLICATION_JSON
     }.andExpect {
       status { isForbidden() }
@@ -101,9 +100,9 @@ class TodoListControllerTest {
     todoListService.createTodoList(input)
 
     mockMvc.get("/api/todo-list") {
-      with(oauth2Login().oauth2User(
-          DefaultOAuth2User(listOf(), mapOf("sub" to "user2"), "sub"))
-      )
+      with(jwt().jwt {
+        it.claim("sub", "user2")
+      })
       accept = MediaType.APPLICATION_JSON
     }.andExpect {
       status { isOk() }

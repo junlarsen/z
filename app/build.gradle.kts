@@ -23,7 +23,8 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-log4j2")
   implementation("org.springframework.boot:spring-boot-starter-actuator")
   implementation("org.springframework.boot:spring-boot-starter-security")
-  implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+  implementation("org.springframework.security:spring-security-oauth2-resource-server")
+  implementation("org.springframework.security:spring-security-oauth2-jose")
 
   implementation("org.flywaydb:flyway-core:10.4.1")
   implementation("org.flywaydb:flyway-database-postgresql:10.4.1")
