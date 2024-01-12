@@ -20,9 +20,7 @@ declare module "next-auth" {
 
   interface User extends DefaultUser {
     id: string;
-    name: string;
     email: string;
-    image?: string;
   }
 }
 
@@ -35,9 +33,7 @@ export default NextAuth({
       checks: "nonce",
       profile: (profile): User => ({
         id: profile.sub,
-        name: `${profile.given_name} ${profile.family_name}`,
         email: profile.email,
-        image: profile.picture ?? undefined,
       }),
     }),
   ],
