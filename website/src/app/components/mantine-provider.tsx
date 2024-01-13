@@ -9,7 +9,7 @@ import { Notifications } from "@mantine/notifications";
 import { FC, PropsWithChildren } from "react";
 
 const theme = createTheme({
-  primaryColor: "pink",
+  primaryColor: "violet",
   fontFamily: "Inter, sans-serif",
   headings: { fontFamily: "Poppins, sans-serif" },
 });

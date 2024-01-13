@@ -1,4 +1,10 @@
-import NextAuth, { DefaultSession, DefaultUser, User } from "next-auth";
+import NextAuth, {
+  DefaultSession,
+  DefaultUser,
+  NextAuthOptions,
+  User,
+} from "next-auth";
+import { DefaultJWT, JWT } from "next-auth/jwt";
 import CognitoProvider from "next-auth/providers/cognito";
 
 declare global {
@@ -24,7 +30,13 @@ declare module "next-auth" {
   }
 }
 
-export default NextAuth({
+declare module "next-auth/jwt" {
+  interface JWT extends DefaultJWT {
+    accessToken: string;
+  }
+}
+
+export const authOptions = {
   providers: [
     CognitoProvider({
       clientId: process.env.COGNITO_CLIENT_ID,
@@ -37,7 +49,17 @@ export default NextAuth({
       }),
     }),
   ],
+  callbacks: {
+    jwt: async ({ token, user, account }): Promise<JWT> => {
+      if (account?.access_token) {
+        token.accessToken = account.access_token;
+      }
+      return token;
+    },
+  },
   session: {
     strategy: "jwt",
   },
-});
+} satisfies NextAuthOptions;
+
+export default NextAuth(authOptions);
