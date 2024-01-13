@@ -1,5 +1,5 @@
 import "@mantine/charts/styles.css";
-import { ColorSchemeScript, Flex, Stack } from "@mantine/core";
+import { ColorSchemeScript } from "@mantine/core";
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 import "@mantine/notifications/styles.css";
@@ -15,7 +15,7 @@ import { SessionProvider } from "~/app/components/session-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Pivot",
+  title: "~",
   description: "Home base of operations",
 };
 

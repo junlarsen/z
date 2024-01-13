@@ -44,6 +44,9 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.17.9
         version: 5.17.9(react@18.2.0)
+      date-fns:
+        specifier: ^3.2.0
+        version: 3.2.0
       dayjs:
         specifier: ^1.11.10
         version: 1.11.10
@@ -649,6 +652,10 @@ packages:
   /d3-timer@3.0.1:
     resolution: {integrity: sha512-ndfJ/JxxMd3nw31uyKoY2naivF+r29V+Lc0svZxe1JvvIRmi8hUsrMvdOwgS1o6uBHmiz91geQ0ylPP0aj1VUA==}
     engines: {node: '>=12'}
+    dev: false
+
+  /date-fns@3.2.0:
+    resolution: {integrity: sha512-E4KWKavANzeuusPi0jUjpuI22SURAznGkx7eZV+4i6x2A+IZxAMcajgkvuDAU1bg40+xuhW1zRdVIIM/4khuIg==}
     dev: false
 
   /dayjs@1.11.10:
