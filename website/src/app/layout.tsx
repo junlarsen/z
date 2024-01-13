@@ -10,6 +10,7 @@ import { Inter } from "next/font/google";
 import { PropsWithChildren } from "react";
 import { AffixedLogin } from "~/app/components/affixed-login";
 import { MantineProvider } from "~/app/components/mantine-provider";
+import { QueryProvider } from "~/app/components/query-provider";
 import { SessionProvider } from "~/app/components/session-provider";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -28,10 +29,12 @@ export default async function RootLayout({ children }: PropsWithChildren) {
       </head>
       <body>
         <SessionProvider session={session}>
-          <MantineProvider>
-            {children}
-            <AffixedLogin />
-          </MantineProvider>
+          <QueryProvider>
+            <MantineProvider>
+              {children}
+              <AffixedLogin />
+            </MantineProvider>
+          </QueryProvider>
         </SessionProvider>
       </body>
     </html>
