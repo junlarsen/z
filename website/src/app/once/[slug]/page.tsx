@@ -3,7 +3,6 @@
 import {
   Button,
   Center,
-  CopyButton,
   LoadingOverlay,
   Stack,
   Text,
@@ -11,6 +10,7 @@ import {
 } from "@mantine/core";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React from "react";
+import { CopyButton } from "~/app/components/copy-button";
 import { GradientTitle } from "~/app/components/gradient-title";
 import { GoBackRedirect } from "~/app/components/redirect";
 import { createApiRequest } from "~/app/http/http";

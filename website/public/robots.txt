@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /assets
+
+# Hello world :)
+
+User-agent: GPTBot
+Disallow: /
