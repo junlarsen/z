@@ -7,12 +7,12 @@ RUN apk update
 WORKDIR /app
 RUN yarn global add turbo pnpm
 COPY . .
-RUN turbo prune --scope=@pivot/website --docker
+RUN turbo prune --scope=@z/website --docker
 
 COPY .gitignore .gitignore
 
 RUN pnpm install --frozen-lockfile
-RUN pnpm turbo build --filter=@pivot/website
+RUN pnpm turbo build --filter=@z/website
 
 FROM base AS runner
 WORKDIR /app
