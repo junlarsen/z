@@ -5,7 +5,6 @@ WORKDIR /workspace/app
 COPY gradlew settings.gradle.kts ./
 COPY app app
 COPY gradle gradle
-COPY .gradle .gradle
 
 RUN ./gradlew build -x test
 
