@@ -16,25 +16,26 @@ import java.util.UUID
 @RequestMapping("/api/secret")
 class SecretController(private val secretService: SecretService) {
   @GetMapping("/{id}")
-  fun get(@PathVariable("id") id: UUID): ResponseEntity<SecretResponseDto> {
-    val secret = secretService.findSecretById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
-    val dto = SecretResponseDto(secret.id, secret.secret, secret.expiresAt)
-    secretService.reduceRemainingViewsById(id)
+  fun get(@PathVariable("id") id: String): ResponseEntity<SecretResponseDto> {
+    val secret = secretService.findSecretBySlug(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+    val dto = SecretResponseDto(secret.id, secret.secret, secret.expiresAt, secret.slug)
+    secretService.reduceRemainingViewsById(secret.id)
     return ResponseEntity(dto, HttpStatus.OK)
   }
 
   @GetMapping("/{id}/preview")
-  fun preview(@PathVariable("id") id: UUID): ResponseEntity<SecretPreviewResponseDto> {
-    val secret = secretService.findSecretById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+  fun preview(@PathVariable("id") id: String): ResponseEntity<SecretPreviewResponseDto> {
+    val secret = secretService.findSecretBySlug(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
     val dto = SecretPreviewResponseDto(secret.id, secret.expiresAt)
     return ResponseEntity(dto, HttpStatus.OK)
   }
 
   @PostMapping()
   fun post(@Valid @RequestBody input: SecretCreateRequestDto): ResponseEntity<SecretResponseDto> {
-    val write = SecretWrite(input.secret, input.expiresAt, input.remainingViews)
+    val slug = secretService.createSlug()
+    val write = SecretWrite(input.secret, input.expiresAt, input.remainingViews, slug)
     val secret = secretService.createSecret(write)
-    val dto = SecretResponseDto(secret.id, secret.secret, secret.expiresAt)
+    val dto = SecretResponseDto(secret.id, secret.secret, secret.expiresAt, slug)
     return ResponseEntity(dto, HttpStatus.CREATED)
   }
 

@@ -7,6 +7,7 @@ import {
 import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
 import { FC, PropsWithChildren } from "react";
+import { ShareModal } from "~/app/once/share-modal";
 
 const theme = createTheme({
   primaryColor: "violet",
@@ -14,7 +15,15 @@ const theme = createTheme({
   headings: { fontFamily: "Poppins, sans-serif" },
 });
 
-const modals = {};
+const modals = {
+  "once/share-secret": ShareModal,
+} as const;
+
+declare module "@mantine/modals" {
+  export interface MantineModalsOverride {
+    modals: typeof modals;
+  }
+}
 
 export const MantineProvider: FC<PropsWithChildren> = ({ children }) => {
   return (

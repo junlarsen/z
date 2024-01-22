@@ -9,7 +9,8 @@ import java.util.UUID
 data class SecretResponseDto(
     val id: UUID,
     val secret: String,
-    val expiresAt: OffsetDateTime
+    val expiresAt: OffsetDateTime,
+    val slug: String
 )
 
 data class SecretPreviewResponseDto(

@@ -12,7 +12,6 @@ class SpringSecurityConfiguration {
   fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
     http {
       authorizeRequests {
-        authorize("/api/secret/**", permitAll)
         authorize(anyRequest, authenticated)
       }
       oauth2ResourceServer {

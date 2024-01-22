@@ -10,12 +10,14 @@ data class Secret(
     val createdAt: OffsetDateTime,
     val expiresAt: OffsetDateTime,
     val remainingViews: Int,
+    val slug: String
 )
 
 data class SecretWrite(
     val secret: String,
     val expiresAt: OffsetDateTime,
     val remainingViews: Int,
+    val slug: String
 )
 
 class SecretNotFoundException(id: UUID) : RuntimeException("Secret with id $id not found")
@@ -26,4 +28,5 @@ fun mapToSecret(secret: Secrets): Secret = Secret(
     createdAt = secret.created_at,
     expiresAt = secret.expires_at,
     remainingViews = secret.remaining_views,
+    slug = secret.slug
 )

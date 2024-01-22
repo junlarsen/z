@@ -11,6 +11,11 @@ class SecretRepository(private val secretQueries: SecretQueries) {
     return secret?.let(::mapToSecret)
   }
 
+  fun findSecretBySlug(slug: String): Secret? {
+    val secret = secretQueries.findSecretBySlug(slug).executeAsOneOrNull()
+    return secret?.let(::mapToSecret)
+  }
+
   fun deleteSecretById(id: UUID) {
     secretQueries.deleteSecretById(id)
   }
@@ -21,6 +26,7 @@ class SecretRepository(private val secretQueries: SecretQueries) {
         secret = input.secret,
         expires_at = input.expiresAt,
         remaining_views = input.remainingViews,
+        slug = input.slug,
     ).executeAsOne()
     return mapToSecret(secret)
   }
@@ -30,6 +36,7 @@ class SecretRepository(private val secretQueries: SecretQueries) {
         secret = input.secret,
         expires_at = input.expiresAt,
         remaining_views = input.remainingViews,
+        slug = input.slug,
     ).executeAsOne()
     return mapToSecret(secret)
   }

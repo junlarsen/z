@@ -20,6 +20,17 @@ class SecretService(private val secretRepository: SecretRepository) {
     }
   }
 
+  fun findSecretBySlug(slug: String): Secret? {
+    return secretRepository.findSecretBySlug(slug)?.let {
+      if (it.remainingViews <= 0) {
+        logger.info("Deleting secret with id ${it.id} because it has no remaining views")
+        secretRepository.deleteSecretById(it.id)
+        return@let null
+      }
+      it
+    }
+  }
+
   fun deleteSecretById(id: UUID) {
     secretRepository.deleteSecretById(id)
   }
@@ -34,7 +45,19 @@ class SecretService(private val secretRepository: SecretRepository) {
       throw IllegalStateException("Tried to reduce remaining views of secret with id $id, but it has no remaining views")
     }
     logger.info("Reducing remaining views of secret with id $id from ${secret.remainingViews} to ${secret.remainingViews - 1}")
-    val input = SecretWrite(secret.secret, secret.expiresAt, secret.remainingViews - 1);
+    val input = SecretWrite(secret.secret, secret.expiresAt, secret.remainingViews - 1, secret.slug);
     return secretRepository.updateSecretById(secret.id, input)
+  }
+
+  fun createSlug(): String {
+    val range = ('0'..'9') + ('a'..'z') + ('A'..'Z')
+    fun getSlug() = (1..8)
+        .map { range.random() }
+        .joinToString("")
+    var slug = getSlug()
+    while (findSecretBySlug(slug) != null) {
+      slug = getSlug()
+    }
+    return slug
   }
 }

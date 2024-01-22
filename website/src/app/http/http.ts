@@ -6,7 +6,7 @@ export const createApiRequest = async (
   body: unknown,
 ) => {
   const realPath = `/api/v1${endpoint}`;
-  return fetch(realPath, {
+  const response = await fetch(realPath, {
     method,
     body: method === "GET" ? undefined : JSON.stringify(body),
     headers: {
@@ -14,4 +14,8 @@ export const createApiRequest = async (
       Accept: "application/json",
     },
   });
+  if (response.ok) {
+    return response;
+  }
+  throw new Error(response.statusText);
 };

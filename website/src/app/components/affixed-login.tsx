@@ -1,6 +1,6 @@
 "use client";
 
-import { Affix, Box, Button, Text } from "@mantine/core";
+import { Affix, Button } from "@mantine/core";
 import { IconLogin, IconLogout } from "@tabler/icons-react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { FC } from "react";
