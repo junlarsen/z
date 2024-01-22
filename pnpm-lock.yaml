@@ -82,7 +82,7 @@ importers:
         specifier: ^18
         version: 18.2.18
       postcss:
-        specifier: ^8.4.31
+        specifier: ^8.4.33
         version: 8.4.33
       postcss-preset-mantine:
         specifier: ^1.11.0
