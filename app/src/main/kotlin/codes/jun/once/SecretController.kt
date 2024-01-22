@@ -18,6 +18,7 @@ class SecretController(private val secretService: SecretService) {
   @GetMapping("/{id}")
   fun get(@PathVariable("id") id: String): ResponseEntity<SecretResponseDto> {
     val secret = secretService.findSecretBySlug(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+    // TODO: Should we care for secrets that have an expiredAt in the past?
     val dto = SecretResponseDto(secret.id, secret.secret, secret.expiresAt, secret.slug)
     secretService.reduceRemainingViewsById(secret.id)
     return ResponseEntity(dto, HttpStatus.OK)

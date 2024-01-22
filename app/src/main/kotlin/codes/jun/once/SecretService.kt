@@ -3,6 +3,7 @@ package codes.jun.once
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import org.springframework.stereotype.Service
+import java.time.OffsetDateTime
 import java.util.UUID
 
 @Service
@@ -10,11 +11,25 @@ class SecretService(private val secretRepository: SecretRepository) {
   private val logger: Logger = LogManager.getLogger(this::class.java)
 
   fun findSecretById(id: UUID): Secret? {
-    return secretRepository.findSecretById(id)
+    return secretRepository.findSecretById(id)?.let {
+      if (it.expiresAt.isBefore(OffsetDateTime.now())) {
+        secretRepository.deleteSecretById(id)
+        null
+      } else {
+        it
+      }
+    }
   }
 
   fun findSecretBySlug(slug: String): Secret? {
-    return secretRepository.findSecretBySlug(slug)
+    return secretRepository.findSecretBySlug(slug)?.let {
+      if (it.expiresAt.isBefore(OffsetDateTime.now())) {
+        secretRepository.deleteSecretById(it.id)
+        null
+      } else {
+        it
+      }
+    }
   }
 
   fun deleteSecretById(id: UUID) {

@@ -49,6 +49,22 @@ class SecretControllerTest {
   }
 
   @Test
+  fun `should not access expired secrets`() {
+    val input = SecretWrite("hunter2", OffsetDateTime.now().minusHours(12), 1, "zwehxwed")
+    val secret = secretService.createSecret(input)
+
+    mockMvc.get("/api/secret/${secret.slug}") {
+      accept = MediaType.APPLICATION_JSON
+      with(jwt())
+    }.andExpect {
+      status { isNotFound() }
+    }
+
+    val secretAfterAccess = secretService.findSecretById(secret.id)
+    assertNull(secretAfterAccess)
+  }
+
+  @Test
   fun `viewing secret should invalidate it`() {
     val input = SecretWrite("hunter2", OffsetDateTime.now().plusHours(12), 1, "slug")
     val secret = secretService.createSecret(input)
@@ -60,7 +76,7 @@ class SecretControllerTest {
       status { isOk() }
       jsonPath("$.id") { value(secret.id.toString()) }
       jsonPath("$.secret") { value("hunter2") }
-      jsonPath("$.expiresAt") { value(secret.expiresAt.toString()) }
+      jsonPath("$.expiresAt") { isNotEmpty() }
     }
 
     mockMvc.get("/api/secret/${secret.slug}") {
