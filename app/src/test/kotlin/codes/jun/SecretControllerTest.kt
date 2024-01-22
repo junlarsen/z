@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.delete
 import org.springframework.test.web.servlet.get
@@ -37,6 +39,7 @@ class SecretControllerTest {
     mockMvc.post("/api/secret") {
       contentType = MediaType.APPLICATION_JSON
       content = json
+      with(jwt())
     }.andExpect {
       status { isCreated() }
       jsonPath("$.id") { isNotEmpty() }
@@ -47,11 +50,12 @@ class SecretControllerTest {
 
   @Test
   fun `viewing secret should invalidate it`() {
-    val input = SecretWrite("hunter2", OffsetDateTime.now().plusHours(12), 1)
+    val input = SecretWrite("hunter2", OffsetDateTime.now().plusHours(12), 1, "slug")
     val secret = secretService.createSecret(input)
 
-    mockMvc.get("/api/secret/${secret.id}") {
+    mockMvc.get("/api/secret/${secret.slug}") {
       accept = MediaType.APPLICATION_JSON
+      with(jwt())
     }.andExpect {
       status { isOk() }
       jsonPath("$.id") { value(secret.id.toString()) }
@@ -59,8 +63,9 @@ class SecretControllerTest {
       jsonPath("$.expiresAt") { value(secret.expiresAt.toString()) }
     }
 
-    mockMvc.get("/api/secret/${secret.id}") {
+    mockMvc.get("/api/secret/${secret.slug}") {
       accept = MediaType.APPLICATION_JSON
+      with(jwt())
     }.andExpect {
       status { isNotFound() }
     }
@@ -68,11 +73,12 @@ class SecretControllerTest {
 
   @Test
   fun `previewing does not consume a view`() {
-    val input = SecretWrite("hunter2", OffsetDateTime.now().plusHours(12), 1)
+    val input = SecretWrite("hunter2", OffsetDateTime.now().plusHours(12), 1, "zzzqw")
     val secret = secretService.createSecret(input)
 
-    mockMvc.get("/api/secret/${secret.id}/preview") {
+    mockMvc.get("/api/secret/${secret.slug}/preview") {
       accept = MediaType.APPLICATION_JSON
+      with(jwt())
     }.andExpect {
       status { isOk() }
       jsonPath("$.id") { value(secret.id.toString()) }
@@ -87,11 +93,12 @@ class SecretControllerTest {
 
   @Test
   fun `deleting a secret permanently removes it`() {
-    val input = SecretWrite("hunter2", OffsetDateTime.now().plusHours(12), 1)
+    val input = SecretWrite("hunter2", OffsetDateTime.now().plusHours(12), 1, "zzzz")
     val secret = secretService.createSecret(input)
 
-    mockMvc.delete("/api/secret/${secret.id}") {
+    mockMvc.delete("/api/secret/${secret.slug}") {
       accept = MediaType.APPLICATION_JSON
+      with(jwt())
     }.andExpect {
       status { isOk() }
     }

@@ -40,8 +40,9 @@ class SecretController(private val secretService: SecretService) {
   }
 
   @DeleteMapping("/{id}")
-  fun delete(@PathVariable("id") id: UUID): ResponseEntity<UUID> {
-    secretService.deleteSecretById(id)
-    return ResponseEntity(id, HttpStatus.OK)
+  fun delete(@PathVariable("id") id: String): ResponseEntity<UUID> {
+    val secret = secretService.findSecretBySlug(id) ?: return ResponseEntity(HttpStatus.OK)
+    secretService.deleteSecretById(secret.id)
+    return ResponseEntity(secret.id, HttpStatus.OK)
   }
 }

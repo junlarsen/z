@@ -16,8 +16,9 @@ class SecretRepository(private val secretQueries: SecretQueries) {
     return secret?.let(::mapToSecret)
   }
 
-  fun deleteSecretById(id: UUID) {
-    secretQueries.deleteSecretById(id)
+  fun deleteSecretById(id: UUID): Secret? {
+    val secret = secretQueries.deleteSecretById(id).executeAsOneOrNull()
+    return secret?.let(::mapToSecret)
   }
 
   fun updateSecretById(id: UUID, input: SecretWrite): Secret {

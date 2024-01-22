@@ -10,25 +10,11 @@ class SecretService(private val secretRepository: SecretRepository) {
   private val logger: Logger = LogManager.getLogger(this::class.java)
 
   fun findSecretById(id: UUID): Secret? {
-    return secretRepository.findSecretById(id)?.let {
-      if (it.remainingViews <= 0) {
-        logger.info("Deleting secret with id $id because it has no remaining views")
-        secretRepository.deleteSecretById(id)
-        return@let null
-      }
-      it
-    }
+    return secretRepository.findSecretById(id)
   }
 
   fun findSecretBySlug(slug: String): Secret? {
-    return secretRepository.findSecretBySlug(slug)?.let {
-      if (it.remainingViews <= 0) {
-        logger.info("Deleting secret with id ${it.id} because it has no remaining views")
-        secretRepository.deleteSecretById(it.id)
-        return@let null
-      }
-      it
-    }
+    return secretRepository.findSecretBySlug(slug)
   }
 
   fun deleteSecretById(id: UUID) {
@@ -45,7 +31,12 @@ class SecretService(private val secretRepository: SecretRepository) {
       throw IllegalStateException("Tried to reduce remaining views of secret with id $id, but it has no remaining views")
     }
     logger.info("Reducing remaining views of secret with id $id from ${secret.remainingViews} to ${secret.remainingViews - 1}")
-    val input = SecretWrite(secret.secret, secret.expiresAt, secret.remainingViews - 1, secret.slug);
+    if (secret.remainingViews == 1) {
+      logger.info("Deleting secret with id $id because it has no remaining views")
+      return secretRepository.deleteSecretById(id)
+          ?: throw IllegalStateException("Tried to delete secret with id $id, but it was already deleted")
+    }
+    val input = SecretWrite(secret.secret, secret.expiresAt, secret.remainingViews - 1, secret.slug)
     return secretRepository.updateSecretById(secret.id, input)
   }
 
@@ -54,6 +45,7 @@ class SecretService(private val secretRepository: SecretRepository) {
     fun getSlug() = (1..8)
         .map { range.random() }
         .joinToString("")
+
     var slug = getSlug()
     while (findSecretBySlug(slug) != null) {
       slug = getSlug()
