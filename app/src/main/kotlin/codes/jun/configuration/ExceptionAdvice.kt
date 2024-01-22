@@ -1,4 +1,4 @@
-package codes.jun
+package codes.jun.configuration
 
 import codes.jun.once.SecretNotFoundException
 import codes.jun.todo.TodoListAlreadyExistsException

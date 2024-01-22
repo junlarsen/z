@@ -1,4 +1,4 @@
-package codes.jun
+package codes.jun.configuration
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
