@@ -11,6 +11,8 @@ import {
 } from "@mantine/core";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React from "react";
+import { GradientTitle } from "~/app/components/gradient-title";
+import { GoBackRedirect } from "~/app/components/redirect";
 import { createApiRequest } from "~/app/http/http";
 
 type PageParams = {
@@ -67,15 +69,10 @@ export default function OnceSecretPage({ params }: PageParams) {
       )}
       {isSuccess && (
         <Stack>
-          <Text
-            component="h1"
-            size="xl"
-            fw="bold"
-            variant="gradient"
-            gradient={{ from: "indigo", to: "pink", deg: 90 }}
-          >
-            You've been sent a shared secret.
-          </Text>
+          <div>
+            <GoBackRedirect href="/once" />
+            <GradientTitle>You've been sent a shared secret.</GradientTitle>
+          </div>
           <Text>
             The secret expires on {fmt.format(new Date(secret.expiresAt))}, at
             which point it will no longer be possible to view it.
@@ -99,11 +96,7 @@ export default function OnceSecretPage({ params }: PageParams) {
                 value={view.data.secret}
               />
               <CopyButton value={view.data.secret}>
-                {({ copied, copy }) => (
-                  <Button color={copied ? "teal" : "blue"} onClick={copy}>
-                    {copied ? "Copied" : "Copy"}
-                  </Button>
-                )}
+                {({ copied }) => (copied ? "Copied" : "Copy")}
               </CopyButton>
             </>
           )}

@@ -1,8 +1,9 @@
 "use client";
 
-import { Button, CopyButton, PasswordInput, Stack, Text } from "@mantine/core";
+import { Button, PasswordInput, Stack, Text } from "@mantine/core";
 import { ContextModalProps } from "@mantine/modals";
 import { FC } from "react";
+import { CopyButton } from "~/app/components/copy-button";
 
 export type ShareModalContext = {
   slug: string;
@@ -20,11 +21,7 @@ export const ShareModal: FC<ContextModalProps<ShareModalContext>> = ({
       </Text>
       <PasswordInput readOnly value={location} />
       <CopyButton value={location}>
-        {({ copied, copy }) => (
-          <Button color={copied ? "teal" : "blue"} onClick={copy}>
-            {copied ? "Copied" : "Copy"}
-          </Button>
-        )}
+        {({ copied }) => (copied ? "Copied" : "Copy")}
       </CopyButton>
     </Stack>
   );

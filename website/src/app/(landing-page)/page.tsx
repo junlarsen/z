@@ -7,21 +7,13 @@ import {
   IconShieldLock,
 } from "@tabler/icons-react";
 import { GearApplication } from "~/app/(landing-page)/gear-application";
+import { GradientTitle } from "~/app/components/gradient-title";
 
 export default function LandingPage() {
   return (
     <Center mih="100vh" p="md">
       <Stack>
-        <Text
-          ta="center"
-          component="h1"
-          size="xl"
-          fw="bold"
-          variant="gradient"
-          gradient={{ from: "indigo", to: "pink", deg: 90 }}
-        >
-          Applications
-        </Text>
+        <GradientTitle ta="center">Applications</GradientTitle>
         <Grid gutter="md">
           <GearApplication
             icon={<IconShieldLock />}

@@ -1,23 +1,21 @@
 "use client";
 
 import {
-  Anchor,
   Button,
   Center,
   Group,
   NumberInput,
   Stack,
-  Text,
   Textarea,
 } from "@mantine/core";
 import { DateTimePicker } from "@mantine/dates";
 import { modals } from "@mantine/modals";
-import { IconArrowLeft } from "@tabler/icons-react";
 import { useMutation } from "@tanstack/react-query";
 import { addMinutes } from "date-fns";
-import Link from "next/link";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
+import { GradientTitle } from "~/app/components/gradient-title";
+import { GoBackRedirect } from "~/app/components/redirect";
 import { createApiRequest } from "~/app/http/http";
 
 export type CreateSecretCommandInput = {
@@ -57,18 +55,10 @@ export default function OncePage() {
     <Center mih="100vh" p="md" maw={600} mx="auto">
       <Stack>
         <div>
-          <Anchor component={Link} href="/">
-            <IconArrowLeft />
-          </Anchor>
-          <Text
-            component="h1"
-            size="xl"
-            fw="bold"
-            variant="gradient"
-            gradient={{ from: "indigo", to: "pink", deg: 90 }}
-          >
+          <GoBackRedirect href="/" />
+          <GradientTitle>
             Once - a one-time secret sharing service
-          </Text>
+          </GradientTitle>
         </div>
         <form onSubmit={onSubmit}>
           <Stack>
