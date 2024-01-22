@@ -9,6 +9,9 @@ plugins {
   application
 }
 
+version = "0.0.1"
+group = "codes.jun"
+
 repositories {
   google()
   mavenCentral()
