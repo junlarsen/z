@@ -35,3 +35,19 @@ resource "aws_route53_record" "auth_pivot_jun_codes" {
   type            = each.value.type
   zone_id         = each.value.zone_id
 }
+
+resource "aws_route53_record" "zserver_jun_codes_cname" {
+  name    = "zserver.jun.codes"
+  type    = "CNAME"
+  zone_id = data.aws_route53_zone.jun_codes.zone_id
+  ttl     = 3600
+  records = ["d76kvp5p.up.railway.app"]
+}
+
+resource "aws_route53_record" "z_jun_codes_cname" {
+  name    = "z.jun.codes"
+  type    = "CNAME"
+  zone_id = data.aws_route53_zone.jun_codes.zone_id
+  ttl     = 3600
+  records = ["1djm03fx.up.railway.app"]
+}

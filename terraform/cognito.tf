@@ -51,3 +51,18 @@ resource "aws_cognito_user_pool_client" "pivot" {
   generate_secret = true
   callback_urls   = ["http://localhost:3000/api/auth/callback/cognito"]
 }
+
+resource "aws_cognito_user_pool_client" "z_prod" {
+  name         = "z"
+  user_pool_id = aws_cognito_user_pool.cognito.id
+
+  supported_identity_providers = ["Google"]
+
+  access_token_validity                = 1
+  allowed_oauth_flows_user_pool_client = true
+  allowed_oauth_flows                  = ["code"]
+  allowed_oauth_scopes                 = ["email", "openid", "profile"]
+
+  generate_secret = true
+  callback_urls   = ["https://z.jun.codes/api/auth/callback/cognito"]
+}
