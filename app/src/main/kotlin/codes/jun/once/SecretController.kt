@@ -36,6 +36,7 @@ class SecretController(private val secretService: SecretService) {
     val slug = secretService.createSlug()
     val write = SecretWrite(input.secret, input.expiresAt, input.remainingViews, slug)
     val secret = secretService.createSecret(write)
+    // TODO: Should this endpoint return the value at all? Maybe it's enough to return the slug?
     val dto = SecretResponseDto(secret.id, secret.secret, secret.expiresAt, slug)
     return ResponseEntity(dto, HttpStatus.CREATED)
   }

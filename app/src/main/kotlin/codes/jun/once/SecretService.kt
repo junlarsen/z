@@ -1,5 +1,6 @@
 package codes.jun.once
 
+import codes.jun.crypto.EncryptionService
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import org.springframework.stereotype.Service
@@ -7,29 +8,27 @@ import java.time.OffsetDateTime
 import java.util.UUID
 
 @Service
-class SecretService(private val secretRepository: SecretRepository) {
+class SecretService(private val secretRepository: SecretRepository, private val encryptionService: EncryptionService) {
   private val logger: Logger = LogManager.getLogger(this::class.java)
 
   fun findSecretById(id: UUID): Secret? {
-    return secretRepository.findSecretById(id)?.let {
-      if (it.expiresAt.isBefore(OffsetDateTime.now())) {
-        secretRepository.deleteSecretById(id)
-        null
-      } else {
-        it
-      }
+    val secret = secretRepository.findSecretById(id) ?: return null
+    if (secret.expiresAt.isBefore(OffsetDateTime.now())) {
+      secretRepository.deleteSecretById(id)
+      return null
     }
+    val decryptedSecret = encryptionService.decrypt(secret.secret)
+    return secret.copy(secret = decryptedSecret)
   }
 
   fun findSecretBySlug(slug: String): Secret? {
-    return secretRepository.findSecretBySlug(slug)?.let {
-      if (it.expiresAt.isBefore(OffsetDateTime.now())) {
-        secretRepository.deleteSecretById(it.id)
-        null
-      } else {
-        it
-      }
+    val secret = secretRepository.findSecretBySlug(slug) ?: return null
+    if (secret.expiresAt.isBefore(OffsetDateTime.now())) {
+      secretRepository.deleteSecretById(secret.id)
+      return null
     }
+    val decryptedSecret = encryptionService.decrypt(secret.secret)
+    return secret.copy(secret = decryptedSecret)
   }
 
   fun deleteSecretById(id: UUID) {
@@ -37,7 +36,11 @@ class SecretService(private val secretRepository: SecretRepository) {
   }
 
   fun createSecret(input: SecretWrite): Secret {
-    return secretRepository.createSecret(input)
+    val encryptedSecret = encryptionService.encrypt(input.secret)
+    val encryptedInput = input.copy(secret = encryptedSecret)
+    val secret = secretRepository.createSecret(encryptedInput)
+    val decryptedSecret = encryptionService.decrypt(secret.secret)
+    return secret.copy(secret = decryptedSecret)
   }
 
   fun reduceRemainingViewsById(id: UUID): Secret {
