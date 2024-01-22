@@ -22,6 +22,7 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: PropsWithChildren) {
   const session = await getServerSession();
+
   return (
     <html lang="en" dir="ltr">
       <head>
