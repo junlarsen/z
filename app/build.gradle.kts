@@ -2,7 +2,7 @@ plugins {
   id("org.jetbrains.kotlin.jvm") version "1.9.22"
   id("org.jetbrains.kotlin.kapt") version "1.9.22"
   id("org.jetbrains.kotlin.plugin.spring") version "1.9.22"
-  id("org.springframework.boot") version "3.1.3"
+  id("org.springframework.boot") version "3.2.2"
   id("io.spring.dependency-management") version "1.1.3"
   id("app.cash.sqldelight") version "2.1.0-SNAPSHOT"
   id("org.flywaydb.flyway") version "10.4.1"
