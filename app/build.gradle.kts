@@ -35,7 +35,7 @@ dependencies {
   implementation("app.cash.sqldelight:jdbc-driver:2.1.0-SNAPSHOT")
   implementation("app.cash.sqldelight:runtime:2.1.0-SNAPSHOT")
 
-  implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.0")
+  implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.16.1")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.0")
 
   testImplementation("org.springframework.boot:spring-boot-starter-test")
