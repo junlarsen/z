@@ -1,6 +1,6 @@
 package codes.jun.once
 
-import codes.jun.pivot.SecretQueries
+import codes.jun.zdatabase.SecretQueries
 import org.springframework.stereotype.Repository
 import java.util.UUID
 

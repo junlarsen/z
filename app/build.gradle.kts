@@ -54,8 +54,8 @@ application {
 
 sqldelight {
   databases {
-    create("PivotDatabase") {
-      packageName.set("codes.jun.pivot")
+    create("ZDatabase") {
+      packageName.set("codes.jun.zdatabase")
       dialect("app.cash.sqldelight:postgresql-dialect:2.1.0-SNAPSHOT")
 
       deriveSchemaFromMigrations = true
@@ -73,7 +73,7 @@ flyway {
 
 tasks.test.configure {
   useJUnitPlatform()
-  dependsOn("generateMainPivotDatabaseMigrations")
+  dependsOn("generateMainZDatabaseMigrations")
 }
 
 java {
@@ -85,7 +85,7 @@ tasks.compileKotlin.configure {
   kotlinOptions {
     jvmTarget = "17"
   }
-  dependsOn("generateMainPivotDatabaseMigrations")
+  dependsOn("generateMainZDatabaseMigrations")
 }
 
 tasks.compileTestKotlin.configure {

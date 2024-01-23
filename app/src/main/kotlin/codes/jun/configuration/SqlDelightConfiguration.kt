@@ -2,9 +2,9 @@ package codes.jun.configuration
 
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.jdbc.asJdbcDriver
-import codes.jun.pivot.PivotDatabase
-import codes.jun.pivot.SecretQueries
-import codes.jun.pivot.TodoListQueries
+import codes.jun.zdatabase.ZDatabase
+import codes.jun.zdatabase.SecretQueries
+import codes.jun.zdatabase.TodoListQueries
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -19,10 +19,10 @@ class SqlDelightConfiguration {
   fun driver(): SqlDriver = dataSource.asJdbcDriver()
 
   @Bean
-  fun pivot(driver: SqlDriver): PivotDatabase = PivotDatabase(driver)
+  fun z(driver: SqlDriver): ZDatabase = ZDatabase(driver)
 
   @Bean
-  fun secretQueries(pivot: PivotDatabase): SecretQueries = pivot.secretQueries
+  fun secretQueries(z: ZDatabase): SecretQueries = z.secretQueries
   @Bean
-  fun todoListQueries(pivot: PivotDatabase): TodoListQueries = pivot.todoListQueries
+  fun todoListQueries(z: ZDatabase): TodoListQueries = z.todoListQueries
 }

@@ -1,4 +1,4 @@
-rootProject.name = "pivot"
+rootProject.name = "z"
 include("app")
 
 pluginManagement {

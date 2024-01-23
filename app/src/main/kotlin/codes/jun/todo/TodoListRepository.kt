@@ -1,6 +1,6 @@
 package codes.jun.todo
 
-import codes.jun.pivot.TodoListQueries
+import codes.jun.zdatabase.TodoListQueries
 import org.springframework.stereotype.Repository
 import java.util.UUID
 

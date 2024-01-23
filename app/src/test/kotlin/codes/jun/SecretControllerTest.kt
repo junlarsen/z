@@ -4,7 +4,7 @@ import codes.jun.crypto.EncryptionService
 import codes.jun.once.SecretCreateRequestDto
 import codes.jun.once.SecretService
 import codes.jun.once.SecretWrite
-import codes.jun.pivot.SecretQueries
+import codes.jun.zdatabase.SecretQueries
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
