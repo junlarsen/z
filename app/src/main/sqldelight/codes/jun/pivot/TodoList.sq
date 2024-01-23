@@ -12,3 +12,6 @@ UPDATE todo_lists SET label = ?, owner_id = ?, updated_at = now() WHERE id = ? R
 
 createTodoList:
 INSERT INTO todo_lists (label, owner_id) VALUES (?, ?) RETURNING *;
+
+deleteTodoListById:
+DELETE FROM todo_lists WHERE id = ? RETURNING *;

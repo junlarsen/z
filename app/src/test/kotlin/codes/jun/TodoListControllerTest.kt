@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.delete
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
 
@@ -107,6 +108,36 @@ class TodoListControllerTest {
     }.andExpect {
       status { isOk() }
       jsonPath("$.length()") { value(1) }
+    }
+  }
+
+  @Test
+  fun `should be able to delete todo list for a given user`() {
+    val input = TodoListWrite("user", "DeleteThisList")
+    val list = todoListService.createTodoList(input)
+
+    mockMvc.delete("/api/todo-list/${list.id}") {
+      with(jwt())
+      accept = MediaType.APPLICATION_JSON
+    }.andExpect {
+      status { isOk() }
+      jsonPath("$.id") { value(list.id.toString()) }
+      jsonPath("$.label") { value("DeleteThisList") }
+      jsonPath("$.createdAt") { isNotEmpty() }
+      jsonPath("$.updatedAt") { isNotEmpty() }
+    }
+  }
+
+  @Test
+  fun `should not be able to delete lists owned by other users`() {
+    val input = TodoListWrite("my-other-user", "CantTouchThisList")
+    val list = todoListService.createTodoList(input)
+
+    mockMvc.delete("/api/todo-list/${list.id}") {
+      with(jwt())
+      accept = MediaType.APPLICATION_JSON
+    }.andExpect {
+      status { isForbidden() }
     }
   }
 }

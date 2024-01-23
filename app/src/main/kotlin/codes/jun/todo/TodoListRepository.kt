@@ -30,6 +30,11 @@ class TodoListRepository(private val todoListQueries: TodoListQueries) {
     return mapToTodoList(list)
   }
 
+  fun deleteTodoListById(id: UUID): TodoList? {
+    val list = todoListQueries.deleteTodoListById(id).executeAsOneOrNull()
+    return list?.let(::mapToTodoList)
+  }
+
   fun createTodoList(input: TodoListWrite): TodoList {
     val list = todoListQueries.createTodoList(
         owner_id = input.ownerId,
