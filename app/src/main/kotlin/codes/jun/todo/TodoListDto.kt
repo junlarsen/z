@@ -6,12 +6,12 @@ import java.time.OffsetDateTime
 import java.util.UUID
 
 data class TodoListResponseDto(
-  val id: UUID,
-  val label: String,
-  val createdAt: OffsetDateTime,
-  val updatedAt: OffsetDateTime,
+    val id: UUID,
+    val label: String,
+    val createdAt: OffsetDateTime,
+    val updatedAt: OffsetDateTime
 )
 
 data class TodoListCreateRequestDto(
-  @field:NotNull @field:NotBlank val label: String,
+    @field:NotNull @field:NotBlank val label: String
 )

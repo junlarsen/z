@@ -12,4 +12,5 @@ class EncryptionService(private val textEncryptor: TextEncryptor) {
   fun decrypt(ciphertext: String): String {
     return textEncryptor.decrypt(ciphertext)
   }
+
 }

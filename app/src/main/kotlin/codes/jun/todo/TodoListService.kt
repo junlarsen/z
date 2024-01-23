@@ -13,10 +13,7 @@ class TodoListService(private val todoListRepository: TodoListRepository) {
     return todoListRepository.findTodoListsByOwnerId(id)
   }
 
-  fun updateTodoListById(
-    id: UUID,
-    input: TodoListWrite,
-  ): TodoList {
+  fun updateTodoListById(id: UUID, input: TodoListWrite): TodoList {
     return todoListRepository.updateTodoListById(id, input)
   }
 

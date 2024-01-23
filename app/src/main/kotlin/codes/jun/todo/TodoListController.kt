@@ -17,10 +17,7 @@ import java.util.UUID
 @RequestMapping("/api/todo-list")
 class TodoListController(private val todoListService: TodoListService) {
   @GetMapping("/{id}")
-  fun get(
-    @PathVariable("id") id: UUID,
-    principal: Principal,
-  ): ResponseEntity<TodoListResponseDto> {
+  fun get(@PathVariable("id") id: UUID, principal: Principal): ResponseEntity<TodoListResponseDto> {
     val list = todoListService.findTodoListById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
     if (list.ownerId != principal.name) {
       return ResponseEntity(HttpStatus.FORBIDDEN)
@@ -37,10 +34,7 @@ class TodoListController(private val todoListService: TodoListService) {
   }
 
   @PostMapping()
-  fun post(
-    @Valid @RequestBody body: TodoListCreateRequestDto,
-    principal: Principal,
-  ): ResponseEntity<TodoListResponseDto> {
+  fun post(@Valid @RequestBody body: TodoListCreateRequestDto, principal: Principal): ResponseEntity<TodoListResponseDto> {
     val write = TodoListWrite(principal.name, body.label)
     val list = todoListService.createTodoList(write)
     val dto = TodoListResponseDto(list.id, list.label, list.createdAt, list.updatedAt)
@@ -48,10 +42,7 @@ class TodoListController(private val todoListService: TodoListService) {
   }
 
   @DeleteMapping("/{id}")
-  fun delete(
-    @PathVariable("id") id: UUID,
-    principal: Principal,
-  ): ResponseEntity<TodoListResponseDto> {
+  fun delete(@PathVariable("id") id: UUID, principal: Principal): ResponseEntity<TodoListResponseDto> {
     val list = todoListService.findTodoListById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
     if (list.ownerId != principal.name) {
       return ResponseEntity(HttpStatus.FORBIDDEN)

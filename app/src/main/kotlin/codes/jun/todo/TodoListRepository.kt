@@ -11,10 +11,7 @@ class TodoListRepository(private val todoListQueries: TodoListQueries) {
     return list?.let(::mapToTodoList)
   }
 
-  fun findTodoListByLabelAndOwnerId(
-    label: String,
-    id: String,
-  ): TodoList? {
+  fun findTodoListByLabelAndOwnerId(label: String, id: String): TodoList? {
     val list = todoListQueries.findTodoListByLabelAndOwnerId(label, id).executeAsOneOrNull()
     return list?.let(::mapToTodoList)
   }
@@ -24,16 +21,12 @@ class TodoListRepository(private val todoListQueries: TodoListQueries) {
     return lists.map(::mapToTodoList)
   }
 
-  fun updateTodoListById(
-    id: UUID,
-    input: TodoListWrite,
-  ): TodoList {
-    val list =
-      todoListQueries.updateTodoListById(
+  fun updateTodoListById(id: UUID, input: TodoListWrite): TodoList {
+    val list = todoListQueries.updateTodoListById(
         id = id,
         label = input.label,
-        owner_id = input.ownerId,
-      ).executeAsOne()
+        owner_id = input.ownerId
+    ).executeAsOne()
     return mapToTodoList(list)
   }
 
@@ -43,11 +36,10 @@ class TodoListRepository(private val todoListQueries: TodoListQueries) {
   }
 
   fun createTodoList(input: TodoListWrite): TodoList {
-    val list =
-      todoListQueries.createTodoList(
+    val list = todoListQueries.createTodoList(
         owner_id = input.ownerId,
         label = input.label,
-      ).executeAsOne()
+    ).executeAsOne()
     return mapToTodoList(list)
   }
 }

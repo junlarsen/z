@@ -17,12 +17,11 @@ class UserController {
       return ResponseEntity(HttpStatus.UNAUTHORIZED)
     }
     val principal = authentication.principal as DefaultOidcUser
-    val dto =
-      UserResponseDto(
+    val dto = UserResponseDto(
         sub = principal.name,
         name = principal.attributes["name"] as String,
         imageUrl = principal.attributes["picture"] as String?,
-      )
+    )
     return ResponseEntity(dto, HttpStatus.OK)
   }
 }

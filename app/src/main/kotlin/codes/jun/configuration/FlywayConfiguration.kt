@@ -12,8 +12,7 @@ class FlywayConfiguration {
   lateinit var dataSource: DataSource
 
   @Bean(initMethod = "migrate")
-  fun flyway(): Flyway =
-    Flyway.configure()
+  fun flyway(): Flyway = Flyway.configure()
       .dataSource(dataSource)
       .locations("classpath:db/migration")
       .baselineOnMigrate(true)

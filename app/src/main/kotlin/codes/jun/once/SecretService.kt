@@ -52,7 +52,7 @@ class SecretService(private val secretRepository: SecretRepository, private val 
     if (secret.remainingViews == 1) {
       logger.info("Deleting secret with id $id because it has no remaining views")
       return secretRepository.deleteSecretById(id)
-        ?: throw IllegalStateException("Tried to delete secret with id $id, but it was already deleted")
+          ?: throw IllegalStateException("Tried to delete secret with id $id, but it was already deleted")
     }
     val input = SecretWrite(secret.secret, secret.expiresAt, secret.remainingViews - 1, secret.slug)
     return secretRepository.updateSecretById(secret.id, input)
@@ -60,9 +60,7 @@ class SecretService(private val secretRepository: SecretRepository, private val 
 
   fun createSlug(): String {
     val range = ('0'..'9') + ('a'..'z') + ('A'..'Z')
-
-    fun getSlug() =
-      (1..8)
+    fun getSlug() = (1..8)
         .map { range.random() }
         .joinToString("")
 
