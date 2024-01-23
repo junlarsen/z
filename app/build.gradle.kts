@@ -6,6 +6,7 @@ plugins {
   id("io.spring.dependency-management") version "1.1.4"
   id("app.cash.sqldelight") version "2.1.0-SNAPSHOT"
   id("org.flywaydb.flyway") version "10.6.0"
+  id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
   application
 }
 

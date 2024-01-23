@@ -12,8 +12,8 @@ class JsonConfiguration {
   @Bean
   fun objectMapper(): ObjectMapper {
     return ObjectMapper()
-        .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-        .registerModule(KotlinModule.Builder().build())
-        .registerModule(JavaTimeModule())
+      .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+      .registerModule(KotlinModule.Builder().build())
+      .registerModule(JavaTimeModule())
   }
 }

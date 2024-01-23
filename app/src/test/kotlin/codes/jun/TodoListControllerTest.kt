@@ -101,9 +101,11 @@ class TodoListControllerTest {
     todoListService.createTodoList(input)
 
     mockMvc.get("/api/todo-list") {
-      with(jwt().jwt {
-        it.claim("sub", "user2")
-      })
+      with(
+        jwt().jwt {
+          it.claim("sub", "user2")
+        },
+      )
       accept = MediaType.APPLICATION_JSON
     }.andExpect {
       status { isOk() }

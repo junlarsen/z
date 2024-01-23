@@ -15,7 +15,7 @@ class SpringSecurityConfiguration {
         authorize(anyRequest, authenticated)
       }
       oauth2ResourceServer {
-        jwt {  }
+        jwt { }
       }
       httpBasic { disable() }
       csrf { disable() }

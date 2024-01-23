@@ -21,24 +21,29 @@ class SecretRepository(private val secretQueries: SecretQueries) {
     return secret?.let(::mapToSecret)
   }
 
-  fun updateSecretById(id: UUID, input: SecretWrite): Secret {
-    val secret = secretQueries.updateSecretById(
+  fun updateSecretById(
+    id: UUID,
+    input: SecretWrite,
+  ): Secret {
+    val secret =
+      secretQueries.updateSecretById(
         id = id,
         secret = input.secret,
         expires_at = input.expiresAt,
         remaining_views = input.remainingViews,
         slug = input.slug,
-    ).executeAsOne()
+      ).executeAsOne()
     return mapToSecret(secret)
   }
 
   fun createSecret(input: SecretWrite): Secret {
-    val secret = secretQueries.createSecret(
+    val secret =
+      secretQueries.createSecret(
         secret = input.secret,
         expires_at = input.expiresAt,
         remaining_views = input.remainingViews,
         slug = input.slug,
-    ).executeAsOne()
+      ).executeAsOne()
     return mapToSecret(secret)
   }
 }

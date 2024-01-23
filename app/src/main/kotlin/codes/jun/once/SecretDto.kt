@@ -7,19 +7,19 @@ import java.time.OffsetDateTime
 import java.util.UUID
 
 data class SecretResponseDto(
-    val id: UUID,
-    val secret: String,
-    val expiresAt: OffsetDateTime,
-    val slug: String
+  val id: UUID,
+  val secret: String,
+  val expiresAt: OffsetDateTime,
+  val slug: String,
 )
 
 data class SecretPreviewResponseDto(
-    val id: UUID,
-    val expiresAt: OffsetDateTime
+  val id: UUID,
+  val expiresAt: OffsetDateTime,
 )
 
 data class SecretCreateRequestDto(
-    @field:NotNull val secret: String,
-    @field:NotNull @field:Future val expiresAt: OffsetDateTime,
-    @field:NotNull @field:Positive val remainingViews: Int,
+  @field:NotNull val secret: String,
+  @field:NotNull @field:Future val expiresAt: OffsetDateTime,
+  @field:NotNull @field:Positive val remainingViews: Int,
 )
