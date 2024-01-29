@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21.0.1_12-jdk-alpine AS build
+FROM eclipse-temurin:21.0.2_13-jdk-alpine AS build
 
 WORKDIR /workspace/app
 
@@ -8,7 +8,7 @@ COPY gradle gradle
 
 RUN ./gradlew build -x test
 
-FROM eclipse-temurin:21.0.1_12-jdk-alpine
+FROM eclipse-temurin:21.0.2_13-jdk-alpine
 
 COPY --from=build /workspace/app/app/build/libs ./
 
