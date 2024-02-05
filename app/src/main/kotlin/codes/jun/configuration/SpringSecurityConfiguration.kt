@@ -12,6 +12,9 @@ class SpringSecurityConfiguration {
   fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
     http {
       authorizeRequests {
+        authorize("/swagger-ui/**", permitAll)
+        authorize("/api-docs/**", permitAll)
+        authorize("/v3/api-docs/**", permitAll)
         authorize(anyRequest, authenticated)
       }
       oauth2ResourceServer {

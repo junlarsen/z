@@ -7,11 +7,9 @@
     "build": "turbo run build",
     "test": "turbo run test",
     "dev": "turbo run dev",
-    "fmt": "biome check --apply .",
-    "ci": "biome ci ."
+    "fmt": "turbo run fmt"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.5.3",
     "turbo": "^1.11.3"
   },
   "engines": {

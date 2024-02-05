@@ -16,7 +16,7 @@ import java.util.UUID
 @RequestMapping("/api/secrets")
 class SecretController(private val secretService: SecretService) {
   @GetMapping("/{id}")
-  fun get(@PathVariable("id") id: String): ResponseEntity<SecretResponseDto> {
+  fun getSecretById(@PathVariable("id") id: String): ResponseEntity<SecretResponseDto> {
     val secret = secretService.findSecretBySlug(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
     // TODO: Should we care for secrets that have an expiredAt in the past?
     val dto = SecretResponseDto(secret.id, secret.secret, secret.expiresAt, secret.slug)
@@ -25,14 +25,14 @@ class SecretController(private val secretService: SecretService) {
   }
 
   @GetMapping("/{id}/preview")
-  fun preview(@PathVariable("id") id: String): ResponseEntity<SecretPreviewResponseDto> {
+  fun getSecretPreviewById(@PathVariable("id") id: String): ResponseEntity<SecretPreviewResponseDto> {
     val secret = secretService.findSecretBySlug(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
     val dto = SecretPreviewResponseDto(secret.id, secret.expiresAt)
     return ResponseEntity(dto, HttpStatus.OK)
   }
 
   @PostMapping()
-  fun post(@Valid @RequestBody input: SecretCreateRequestDto): ResponseEntity<SecretResponseDto> {
+  fun createSecret(@Valid @RequestBody input: SecretCreateRequestDto): ResponseEntity<SecretResponseDto> {
     val slug = secretService.createSlug()
     val write = SecretWrite(input.secret, input.expiresAt, input.remainingViews, slug)
     val secret = secretService.createSecret(write)
@@ -42,7 +42,7 @@ class SecretController(private val secretService: SecretService) {
   }
 
   @DeleteMapping("/{id}")
-  fun delete(@PathVariable("id") id: String): ResponseEntity<UUID> {
+  fun deleteSecret(@PathVariable("id") id: String): ResponseEntity<UUID> {
     val secret = secretService.findSecretBySlug(id) ?: return ResponseEntity(HttpStatus.OK)
     secretService.deleteSecretById(secret.id)
     return ResponseEntity(secret.id, HttpStatus.OK)

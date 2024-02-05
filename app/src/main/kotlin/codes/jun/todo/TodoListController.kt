@@ -21,7 +21,7 @@ class TodoListController(
     private val todoItemService: TodoItemService
 ) {
   @GetMapping("/{id}")
-  fun get(@PathVariable("id") id: UUID, principal: Principal): ResponseEntity<TodoListResponseDto> {
+  fun getTodoListById(@PathVariable("id") id: UUID, principal: Principal): ResponseEntity<TodoListResponseDto> {
     val list = todoListService.findTodoListById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
     if (list.ownerId != principal.name) {
       return ResponseEntity(HttpStatus.FORBIDDEN)
@@ -31,14 +31,14 @@ class TodoListController(
   }
 
   @GetMapping()
-  fun get(principal: Principal): ResponseEntity<List<TodoListResponseDto>> {
+  fun getTodoLists(principal: Principal): ResponseEntity<List<TodoListResponseDto>> {
     val lists = todoListService.findTodoListsByOwnerId(principal.name)
     val dtos = lists.map { TodoListResponseDto(it.id, it.label, it.createdAt, it.updatedAt) }
     return ResponseEntity(dtos, HttpStatus.OK)
   }
 
   @PostMapping()
-  fun post(@Valid @RequestBody body: TodoListCreateRequestDto, principal: Principal): ResponseEntity<TodoListResponseDto> {
+  fun createTodoList(@Valid @RequestBody body: TodoListCreateRequestDto, principal: Principal): ResponseEntity<TodoListResponseDto> {
     val write = TodoListWrite(principal.name, body.label)
     val list = todoListService.createTodoList(write)
     val dto = TodoListResponseDto(list.id, list.label, list.createdAt, list.updatedAt)
@@ -46,7 +46,7 @@ class TodoListController(
   }
 
   @DeleteMapping("/{id}")
-  fun delete(@PathVariable("id") id: UUID, principal: Principal): ResponseEntity<TodoListResponseDto> {
+  fun deleteTodoListById(@PathVariable("id") id: UUID, principal: Principal): ResponseEntity<TodoListResponseDto> {
     val list = todoListService.findTodoListById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
     if (list.ownerId != principal.name) {
       return ResponseEntity(HttpStatus.FORBIDDEN)
@@ -57,7 +57,7 @@ class TodoListController(
   }
 
   @GetMapping("/{id}/items")
-  fun getItems(@PathVariable("id") id: UUID, principal: Principal): ResponseEntity<List<TodoItemResponseDto>> {
+  fun getTodoItemsByListId(@PathVariable("id") id: UUID, principal: Principal): ResponseEntity<List<TodoItemResponseDto>> {
     val list = todoListService.findTodoListById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
     if (list.ownerId != principal.name) {
       return ResponseEntity(HttpStatus.FORBIDDEN)
@@ -68,7 +68,7 @@ class TodoListController(
   }
 
   @PostMapping("/{id}/items")
-  fun postItem(@PathVariable("id") id: UUID, @Valid @RequestBody body: TodoItemCreateRequestDto, principal: Principal): ResponseEntity<TodoItemResponseDto> {
+  fun createTodoItemByListId(@PathVariable("id") id: UUID, @Valid @RequestBody body: TodoItemCreateRequestDto, principal: Principal): ResponseEntity<TodoItemResponseDto> {
     val list = todoListService.findTodoListById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
     if (list.ownerId != principal.name) {
       return ResponseEntity(HttpStatus.FORBIDDEN)
@@ -80,7 +80,7 @@ class TodoListController(
   }
 
   @DeleteMapping("/{id}/items/{itemId}")
-  fun deleteItem(@PathVariable("id") id: UUID, @PathVariable("itemId") itemId: UUID, principal: Principal): ResponseEntity<TodoItemResponseDto> {
+  fun deleteTodoItemByListId(@PathVariable("id") id: UUID, @PathVariable("itemId") itemId: UUID, principal: Principal): ResponseEntity<TodoItemResponseDto> {
     val list = todoListService.findTodoListById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
     if (list.ownerId != principal.name) {
       return ResponseEntity(HttpStatus.FORBIDDEN)
@@ -91,7 +91,7 @@ class TodoListController(
   }
 
   @GetMapping("/{id}/deleted-items")
-  fun getDeletedItems(@PathVariable("id") id: UUID, principal: Principal): ResponseEntity<List<TodoItemResponseDto>> {
+  fun getDeletedItemsByListId(@PathVariable("id") id: UUID, principal: Principal): ResponseEntity<List<TodoItemResponseDto>> {
     val list = todoListService.findTodoListById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
     if (list.ownerId != principal.name) {
       return ResponseEntity(HttpStatus.FORBIDDEN)
@@ -102,7 +102,7 @@ class TodoListController(
   }
 
   @PatchMapping("/{id}/items/{itemId}")
-  fun patchItem(@PathVariable("id") id: UUID, @PathVariable("itemId") itemId: UUID, @Valid @RequestBody body: TodoItemCreateRequestDto, principal: Principal): ResponseEntity<TodoItemResponseDto> {
+  fun updateTodoItemById(@PathVariable("id") id: UUID, @PathVariable("itemId") itemId: UUID, @Valid @RequestBody body: TodoItemCreateRequestDto, principal: Principal): ResponseEntity<TodoItemResponseDto> {
     val list = todoListService.findTodoListById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
     if (list.ownerId != principal.name) {
       return ResponseEntity(HttpStatus.FORBIDDEN)

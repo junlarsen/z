@@ -10,9 +10,8 @@
       "outputs": ["dist/**"],
       "cache": false
     },
-    "test": {
-      "dependsOn": ["^test"]
-    }
+    "test": {},
+    "fmt": {}
   },
   "globalEnv": ["NODE_ENV"]
 }

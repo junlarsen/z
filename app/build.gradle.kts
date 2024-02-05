@@ -6,6 +6,8 @@ plugins {
   id("io.spring.dependency-management") version "1.1.4"
   id("app.cash.sqldelight") version "2.1.0-SNAPSHOT"
   id("org.flywaydb.flyway") version "10.6.0"
+  id("org.openapi.generator") version "7.2.0"
+  id("org.springdoc.openapi-gradle-plugin") version "1.8.0"
   application
 }
 
@@ -37,6 +39,9 @@ dependencies {
 
   implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.16.1")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.16.1")
+
+  implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
+  implementation("org.springdoc:springdoc-openapi-starter-common:2.3.0")
 
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("org.springframework.security:spring-security-test")
@@ -71,14 +76,36 @@ flyway {
   locations = arrayOf("$buildDir/resources/main/db/migration")
 }
 
-tasks.test.configure {
-  useJUnitPlatform()
-  dependsOn("generateMainZDatabaseMigrations")
+openApi {
+  outputDir.set(file("$buildDir/docs"))
+  outputFileName.set("swagger.json")
+}
+
+openApiGenerate {
+  inputSpec = "$buildDir/docs/swagger.json"
+  generatorName = "typescript-fetch"
+  outputDir = "$rootDir/api-client"
+  additionalProperties = mapOf(
+      "npmName" to "@z/api-client",
+      "npmVersion" to "0.1.0",
+      "supportsES6" to "true",
+      "enumPropertyNaming" to "UPPERCASE",
+      "modelPropertyNaming" to "original"
+  )
 }
 
 java {
   sourceCompatibility = JavaVersion.VERSION_17
   targetCompatibility = JavaVersion.VERSION_17
+}
+
+tasks.openApiGenerate.configure {
+  dependsOn("generateOpenApiDocs")
+}
+
+tasks.test.configure {
+  useJUnitPlatform()
+  dependsOn("generateMainZDatabaseMigrations")
 }
 
 tasks.compileKotlin.configure {
