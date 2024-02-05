@@ -11,30 +11,28 @@ import {
 import { DateTimePicker } from "@mantine/dates";
 import { modals } from "@mantine/modals";
 import { useMutation } from "@tanstack/react-query";
+import { CreateSecretRequest } from "@z/api-client";
 import { addMinutes } from "date-fns";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { GradientTitle } from "~/app/components/gradient-title";
 import { GoBackRedirect } from "~/app/components/redirect";
-import { createApiRequest } from "~/app/http/http";
+import { secretApi } from "~/app/http/http";
 
-export type CreateSecretCommandInput = {
-  secret: string;
-  expiresAt: Date;
-  remainingViews: number;
-};
+// TODO: Refactor out into plain OpenAPI type
+export type CreateSecretCommandInput =
+  CreateSecretRequest["secretCreateRequestDto"];
 
 export default function OncePage() {
   const createSecret = useMutation({
     mutationFn: async (input: CreateSecretCommandInput) =>
-      createApiRequest("/secrets", "POST", input),
+      secretApi.createSecret({ secretCreateRequestDto: input }),
     onSuccess: async (response) => {
-      const json = await response.json();
       modals.openContextModal({
         modal: "once/share-secret",
         title: "Share secret",
         innerProps: {
-          slug: json.slug,
+          slug: response.slug,
         },
       });
     },

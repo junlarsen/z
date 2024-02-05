@@ -25,7 +25,7 @@ import {
 /**
  * 
  */
-export class UserControllerApi extends runtime.BaseAPI {
+export class UserApi extends runtime.BaseAPI {
 
     /**
      */

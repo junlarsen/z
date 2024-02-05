@@ -70,7 +70,7 @@ export interface UpdateTodoItemByIdRequest {
 /**
  * 
  */
-export class TodoListControllerApi extends runtime.BaseAPI {
+export class TodoListApi extends runtime.BaseAPI {
 
     /**
      */

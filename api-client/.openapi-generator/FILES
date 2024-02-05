@@ -2,9 +2,9 @@
 .npmignore
 README.md
 package.json
-src/apis/SecretControllerApi.ts
-src/apis/TodoListControllerApi.ts
-src/apis/UserControllerApi.ts
+src/apis/SecretApi.ts
+src/apis/TodoListApi.ts
+src/apis/UserApi.ts
 src/apis/index.ts
 src/index.ts
 src/models/SecretCreateRequestDto.ts

@@ -13,7 +13,7 @@ import React from "react";
 import { CopyButton } from "~/app/components/copy-button";
 import { GradientTitle } from "~/app/components/gradient-title";
 import { GoBackRedirect } from "~/app/components/redirect";
-import { createApiRequest } from "~/app/http/http";
+import { secretApi } from "~/app/http/http";
 
 type PageParams = {
   params: {
@@ -28,15 +28,11 @@ export default function OnceSecretPage({ params }: PageParams) {
     isError,
     isSuccess,
   } = useQuery({
-    queryFn: async () =>
-      createApiRequest(`/secrets/${params.slug}/preview`, "GET", null).then(
-        (_) => _.json(),
-      ),
+    queryFn: async () => secretApi.getSecretPreviewById({ id: params.slug }),
     queryKey: ["secret", params.slug],
   });
   const view = useMutation({
-    mutationFn: async (slug: string) =>
-      createApiRequest(`/secrets/${slug}`, "GET", null).then((_) => _.json()),
+    mutationFn: async (slug: string) => secretApi.getSecretById({ id: slug }),
   });
   const fmt = new Intl.DateTimeFormat("en", {
     minute: "numeric",

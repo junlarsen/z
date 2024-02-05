@@ -8,7 +8,7 @@ export const apiEndpointRoot =
 export default async function proxy(req: NextApiRequest, res: NextApiResponse) {
   invariant(req.url !== undefined, "Request did not have url");
   const token = await getToken({ req });
-  const realPath = req.url.replace(/^\/api\/v1\//, "/api/");
+  const realPath = req.url.replace(/^\/api\/v1\//, "/");
   const url = new URL(realPath, apiEndpointRoot);
   console.info("Proxy request to", url.toString());
 

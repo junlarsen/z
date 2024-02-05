@@ -1,5 +1,5 @@
 /* tslint:disable */
 /* eslint-disable */
-export * from './SecretControllerApi';
-export * from './TodoListControllerApi';
-export * from './UserControllerApi';
+export * from './SecretApi';
+export * from './TodoListApi';
+export * from './UserApi';

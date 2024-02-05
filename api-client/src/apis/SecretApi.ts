@@ -47,7 +47,7 @@ export interface GetSecretPreviewByIdRequest {
 /**
  * 
  */
-export class SecretControllerApi extends runtime.BaseAPI {
+export class SecretApi extends runtime.BaseAPI {
 
     /**
      */

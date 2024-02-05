@@ -1,6 +1,7 @@
 package codes.jun.user
 
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/users")
+@Tag(name = "User", description = "User API")
 class UserController {
   @GetMapping("/me")
   fun getCurrentUser(): ResponseEntity<UserResponseDto> {
