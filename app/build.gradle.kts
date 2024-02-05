@@ -31,7 +31,7 @@ dependencies {
 
   implementation("org.flywaydb:flyway-core:10.4.1")
   implementation("org.flywaydb:flyway-database-postgresql:10.4.1")
-  implementation("org.postgresql:postgresql:42.2.27")
+  implementation("org.postgresql:postgresql:42.7.1")
   implementation("app.cash.sqldelight:jdbc-driver:2.1.0-SNAPSHOT")
   implementation("app.cash.sqldelight:runtime:2.1.0-SNAPSHOT")
 
