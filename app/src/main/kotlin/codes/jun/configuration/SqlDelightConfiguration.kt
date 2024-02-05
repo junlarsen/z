@@ -2,10 +2,10 @@ package codes.jun.configuration
 
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.jdbc.asJdbcDriver
-import codes.jun.zdatabase.ZDatabase
 import codes.jun.zdatabase.SecretQueries
 import codes.jun.zdatabase.TodoListItemQueries
 import codes.jun.zdatabase.TodoListQueries
+import codes.jun.zdatabase.ZDatabase
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

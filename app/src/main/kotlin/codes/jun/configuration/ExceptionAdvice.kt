@@ -1,9 +1,5 @@
 package codes.jun.configuration
 
-import codes.jun.once.SecretNotFoundException
-import codes.jun.todo.TodoItemNotFoundException
-import codes.jun.todo.TodoListAlreadyExistsException
-import codes.jun.todo.TodoListNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
