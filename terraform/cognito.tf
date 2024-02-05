@@ -43,10 +43,17 @@ resource "aws_cognito_user_pool_client" "pivot" {
 
   supported_identity_providers = ["Google"]
 
-  access_token_validity                = 1
+  access_token_validity  = 24
+  refresh_token_validity = 30
+
   allowed_oauth_flows_user_pool_client = true
   allowed_oauth_flows                  = ["code"]
   allowed_oauth_scopes                 = ["email", "openid", "profile"]
+
+  token_validity_units {
+    access_token  = "hours"
+    refresh_token = "days"
+  }
 
   generate_secret = true
   callback_urls   = ["http://localhost:3000/api/auth/callback/cognito"]
@@ -58,7 +65,14 @@ resource "aws_cognito_user_pool_client" "z_prod" {
 
   supported_identity_providers = ["Google"]
 
-  access_token_validity                = 1
+  access_token_validity  = 24
+  refresh_token_validity = 30
+
+  token_validity_units {
+    access_token  = "hours"
+    refresh_token = "days"
+  }
+
   allowed_oauth_flows_user_pool_client = true
   allowed_oauth_flows                  = ["code"]
   allowed_oauth_scopes                 = ["email", "openid", "profile"]
