@@ -16,7 +16,7 @@
     "@mantine/modals": "^7.4.2",
     "@mantine/notifications": "^7.4.2",
     "@mantine/spotlight": "^7.4.2",
-    "@tabler/icons-react": "^2.46.0",
+    "@tabler/icons-react": "^2.47.0",
     "@tanstack/react-query": "^5.17.19",
     "@z/api-client": "workspace:*",
     "aws-jwt-verify": "^4.0.0",
