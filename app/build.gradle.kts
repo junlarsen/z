@@ -41,7 +41,7 @@ dependencies {
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("org.springframework.security:spring-security-test")
   testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-  testImplementation("org.junit.jupiter:junit-jupiter-engine:5.9.2")
+  testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.2")
   testImplementation("org.testcontainers:testcontainers:1.17.2")
   testImplementation("org.testcontainers:junit-jupiter:1.17.2")
   testImplementation("org.testcontainers:postgresql:1.17.2")
