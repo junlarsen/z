@@ -31,7 +31,7 @@ class TodoListControllerTest {
   fun `should create todo lists`() {
     val dto = TodoListCreateRequestDto("Groceries")
     val json = objectMapper.writeValueAsString(dto)
-    mockMvc.post("/api/todo-list") {
+    mockMvc.post("/api/todo-lists") {
       with(jwt())
       contentType = MediaType.APPLICATION_JSON
       content = json
@@ -48,7 +48,7 @@ class TodoListControllerTest {
   fun `should fail on duplicate list name for user`() {
     val dto = TodoListCreateRequestDto("MyGroceries")
     val json = objectMapper.writeValueAsString(dto)
-    mockMvc.post("/api/todo-list") {
+    mockMvc.post("/api/todo-lists") {
       with(jwt())
       contentType = MediaType.APPLICATION_JSON
       content = json
@@ -56,7 +56,7 @@ class TodoListControllerTest {
       status { isCreated() }
     }
 
-    mockMvc.post("/api/todo-list") {
+    mockMvc.post("/api/todo-lists") {
       with(jwt())
       contentType = MediaType.APPLICATION_JSON
       content = json
@@ -70,7 +70,7 @@ class TodoListControllerTest {
     val input = TodoListWrite("user", "Food")
     val list = todoListService.createTodoList(input)
 
-    mockMvc.get("/api/todo-list/${list.id}") {
+    mockMvc.get("/api/todo-lists/${list.id}") {
       with(jwt())
       accept = MediaType.APPLICATION_JSON
     }.andExpect {
@@ -87,7 +87,7 @@ class TodoListControllerTest {
     val input = TodoListWrite("my-other-user", "Clothes")
     val list = todoListService.createTodoList(input)
 
-    mockMvc.get("/api/todo-list/${list.id}") {
+    mockMvc.get("/api/todo-lists/${list.id}") {
       with(jwt())
       accept = MediaType.APPLICATION_JSON
     }.andExpect {
@@ -100,7 +100,7 @@ class TodoListControllerTest {
     val input = TodoListWrite("user2", "Food")
     todoListService.createTodoList(input)
 
-    mockMvc.get("/api/todo-list") {
+    mockMvc.get("/api/todo-lists") {
       with(jwt().jwt {
         it.claim("sub", "user2")
       })
@@ -116,7 +116,7 @@ class TodoListControllerTest {
     val input = TodoListWrite("user", "DeleteThisList")
     val list = todoListService.createTodoList(input)
 
-    mockMvc.delete("/api/todo-list/${list.id}") {
+    mockMvc.delete("/api/todo-lists/${list.id}") {
       with(jwt())
       accept = MediaType.APPLICATION_JSON
     }.andExpect {
@@ -133,7 +133,7 @@ class TodoListControllerTest {
     val input = TodoListWrite("my-other-user", "CantTouchThisList")
     val list = todoListService.createTodoList(input)
 
-    mockMvc.delete("/api/todo-list/${list.id}") {
+    mockMvc.delete("/api/todo-lists/${list.id}") {
       with(jwt())
       accept = MediaType.APPLICATION_JSON
     }.andExpect {

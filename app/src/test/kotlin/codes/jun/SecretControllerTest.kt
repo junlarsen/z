@@ -45,7 +45,7 @@ class SecretControllerTest {
   fun `should create one time secrets`() {
     val dto = SecretCreateRequestDto("hunter2", OffsetDateTime.now().plusHours(12), 1)
     val json = objectMapper.writeValueAsString(dto)
-    mockMvc.post("/api/secret") {
+    mockMvc.post("/api/secrets") {
       contentType = MediaType.APPLICATION_JSON
       content = json
       with(jwt())
@@ -72,7 +72,7 @@ class SecretControllerTest {
     val input = SecretWrite("hunter2", OffsetDateTime.now().minusHours(12), 1, "zwehxwed")
     val secret = secretService.createSecret(input)
 
-    mockMvc.get("/api/secret/${secret.slug}") {
+    mockMvc.get("/api/secrets/${secret.slug}") {
       accept = MediaType.APPLICATION_JSON
       with(jwt())
     }.andExpect {
@@ -88,7 +88,7 @@ class SecretControllerTest {
     val input = SecretWrite("hunter2", OffsetDateTime.now().plusHours(12), 1, "slug")
     val secret = secretService.createSecret(input)
 
-    mockMvc.get("/api/secret/${secret.slug}") {
+    mockMvc.get("/api/secrets/${secret.slug}") {
       accept = MediaType.APPLICATION_JSON
       with(jwt())
     }.andExpect {
@@ -98,7 +98,7 @@ class SecretControllerTest {
       jsonPath("$.expiresAt") { isNotEmpty() }
     }
 
-    mockMvc.get("/api/secret/${secret.slug}") {
+    mockMvc.get("/api/secrets/${secret.slug}") {
       accept = MediaType.APPLICATION_JSON
       with(jwt())
     }.andExpect {
@@ -111,7 +111,7 @@ class SecretControllerTest {
     val input = SecretWrite("hunter2", OffsetDateTime.now().plusHours(12), 1, "zzzqw")
     val secret = secretService.createSecret(input)
 
-    mockMvc.get("/api/secret/${secret.slug}/preview") {
+    mockMvc.get("/api/secrets/${secret.slug}/preview") {
       accept = MediaType.APPLICATION_JSON
       with(jwt())
     }.andExpect {
@@ -131,7 +131,7 @@ class SecretControllerTest {
     val input = SecretWrite("hunter2", OffsetDateTime.now().plusHours(12), 1, "zzzz")
     val secret = secretService.createSecret(input)
 
-    mockMvc.delete("/api/secret/${secret.slug}") {
+    mockMvc.delete("/api/secrets/${secret.slug}") {
       accept = MediaType.APPLICATION_JSON
       with(jwt())
     }.andExpect {

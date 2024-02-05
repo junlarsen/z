@@ -14,7 +14,7 @@ import java.security.Principal
 import java.util.UUID
 
 @RestController
-@RequestMapping("/api/todo-list")
+@RequestMapping("/api/todo-lists")
 class TodoListController(private val todoListService: TodoListService) {
   @GetMapping("/{id}")
   fun get(@PathVariable("id") id: UUID, principal: Principal): ResponseEntity<TodoListResponseDto> {

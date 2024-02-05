@@ -27,7 +27,7 @@ export type CreateSecretCommandInput = {
 export default function OncePage() {
   const createSecret = useMutation({
     mutationFn: async (input: CreateSecretCommandInput) =>
-      createApiRequest("/secret", "POST", input),
+      createApiRequest("/secrets", "POST", input),
     onSuccess: async (response) => {
       const json = await response.json();
       modals.openContextModal({

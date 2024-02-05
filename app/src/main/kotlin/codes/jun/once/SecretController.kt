@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 
 @RestController()
-@RequestMapping("/api/secret")
+@RequestMapping("/api/secrets")
 class SecretController(private val secretService: SecretService) {
   @GetMapping("/{id}")
   fun get(@PathVariable("id") id: String): ResponseEntity<SecretResponseDto> {

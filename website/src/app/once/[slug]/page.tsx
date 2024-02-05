@@ -29,14 +29,14 @@ export default function OnceSecretPage({ params }: PageParams) {
     isSuccess,
   } = useQuery({
     queryFn: async () =>
-      createApiRequest(`/secret/${params.slug}/preview`, "GET", null).then(
+      createApiRequest(`/secrets/${params.slug}/preview`, "GET", null).then(
         (_) => _.json(),
       ),
     queryKey: ["secret", params.slug],
   });
   const view = useMutation({
     mutationFn: async (slug: string) =>
-      createApiRequest(`/secret/${slug}`, "GET", null).then((_) => _.json()),
+      createApiRequest(`/secrets/${slug}`, "GET", null).then((_) => _.json()),
   });
   const fmt = new Intl.DateTimeFormat("en", {
     minute: "numeric",
