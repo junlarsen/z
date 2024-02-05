@@ -1,0 +1,17 @@
+findTodoItemsByListId:
+SELECT * FROM todo_items WHERE list_id = ? AND deleted_at IS NULL;
+
+findTodoItemById:
+SELECT * FROM todo_items WHERE id = ?;
+
+findDeletedTodoItemsByListId:
+SELECT * FROM todo_items WHERE list_id = ? AND deleted_at IS NOT NULL;
+
+updateTodoItemById:
+UPDATE todo_items SET label = ?, updated_at = now() WHERE id = ? RETURNING *;
+
+deleteTodoItemById:
+UPDATE todo_items SET deleted_at = now() WHERE id = ? RETURNING *;
+
+createTodoItemByListId:
+INSERT INTO todo_items (list_id, label, created_at, updated_at) VALUES (?, ?, now(), now()) RETURNING *;

@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -15,7 +16,10 @@ import java.util.UUID
 
 @RestController
 @RequestMapping("/api/todo-lists")
-class TodoListController(private val todoListService: TodoListService) {
+class TodoListController(
+    private val todoListService: TodoListService,
+    private val todoItemService: TodoItemService
+) {
   @GetMapping("/{id}")
   fun get(@PathVariable("id") id: UUID, principal: Principal): ResponseEntity<TodoListResponseDto> {
     val list = todoListService.findTodoListById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
@@ -49,6 +53,63 @@ class TodoListController(private val todoListService: TodoListService) {
     }
     val deleted = todoListService.deleteTodoListById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
     val dto = TodoListResponseDto(deleted.id, deleted.label, deleted.createdAt, deleted.updatedAt)
+    return ResponseEntity(dto, HttpStatus.OK)
+  }
+
+  @GetMapping("/{id}/items")
+  fun getItems(@PathVariable("id") id: UUID, principal: Principal): ResponseEntity<List<TodoItemResponseDto>> {
+    val list = todoListService.findTodoListById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+    if (list.ownerId != principal.name) {
+      return ResponseEntity(HttpStatus.FORBIDDEN)
+    }
+    val items = todoItemService.findTodoItemsByListId(id)
+    val dtos = items.map { TodoItemResponseDto(it.id, it.listId, it.label, it.createdAt, it.updatedAt, it.deletedAt) }
+    return ResponseEntity(dtos, HttpStatus.OK)
+  }
+
+  @PostMapping("/{id}/items")
+  fun postItem(@PathVariable("id") id: UUID, @Valid @RequestBody body: TodoItemCreateRequestDto, principal: Principal): ResponseEntity<TodoItemResponseDto> {
+    val list = todoListService.findTodoListById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+    if (list.ownerId != principal.name) {
+      return ResponseEntity(HttpStatus.FORBIDDEN)
+    }
+    val write = TodoItemWrite(id, body.label)
+    val item = todoItemService.createTodoItemsByListId(id, write)
+    val dto = TodoItemResponseDto(item.id, item.listId, item.label, item.createdAt, item.updatedAt, item.deletedAt)
+    return ResponseEntity(dto, HttpStatus.CREATED)
+  }
+
+  @DeleteMapping("/{id}/items/{itemId}")
+  fun deleteItem(@PathVariable("id") id: UUID, @PathVariable("itemId") itemId: UUID, principal: Principal): ResponseEntity<TodoItemResponseDto> {
+    val list = todoListService.findTodoListById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+    if (list.ownerId != principal.name) {
+      return ResponseEntity(HttpStatus.FORBIDDEN)
+    }
+    val item = todoItemService.deleteTodoItemById(itemId) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+    val dto = TodoItemResponseDto(item.id, item.listId, item.label, item.createdAt, item.updatedAt, item.deletedAt)
+    return ResponseEntity(dto, HttpStatus.OK)
+  }
+
+  @GetMapping("/{id}/deleted-items")
+  fun getDeletedItems(@PathVariable("id") id: UUID, principal: Principal): ResponseEntity<List<TodoItemResponseDto>> {
+    val list = todoListService.findTodoListById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+    if (list.ownerId != principal.name) {
+      return ResponseEntity(HttpStatus.FORBIDDEN)
+    }
+    val items = todoItemService.findDeletedTodoItemsByListId(id)
+    val dtos = items.map { TodoItemResponseDto(it.id, it.listId, it.label, it.createdAt, it.updatedAt, it.deletedAt) }
+    return ResponseEntity(dtos, HttpStatus.OK)
+  }
+
+  @PatchMapping("/{id}/items/{itemId}")
+  fun patchItem(@PathVariable("id") id: UUID, @PathVariable("itemId") itemId: UUID, @Valid @RequestBody body: TodoItemCreateRequestDto, principal: Principal): ResponseEntity<TodoItemResponseDto> {
+    val list = todoListService.findTodoListById(id) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
+    if (list.ownerId != principal.name) {
+      return ResponseEntity(HttpStatus.FORBIDDEN)
+    }
+    val write = TodoItemWrite(id, body.label)
+    val item = todoItemService.updateTodoItemById(itemId, write)
+    val dto = TodoItemResponseDto(item.id, item.listId, item.label, item.createdAt, item.updatedAt, item.deletedAt)
     return ResponseEntity(dto, HttpStatus.OK)
   }
 }

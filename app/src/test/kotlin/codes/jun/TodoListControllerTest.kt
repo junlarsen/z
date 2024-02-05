@@ -1,5 +1,8 @@
 package codes.jun
 
+import codes.jun.todo.TodoItemCreateRequestDto
+import codes.jun.todo.TodoItemService
+import codes.jun.todo.TodoItemWrite
 import codes.jun.todo.TodoListCreateRequestDto
 import codes.jun.todo.TodoListService
 import codes.jun.todo.TodoListWrite
@@ -13,6 +16,7 @@ import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequ
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.delete
 import org.springframework.test.web.servlet.get
+import org.springframework.test.web.servlet.patch
 import org.springframework.test.web.servlet.post
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -26,6 +30,9 @@ class TodoListControllerTest {
 
   @Autowired
   private lateinit var todoListService: TodoListService
+
+  @Autowired
+  private lateinit var todoItemService: TodoItemService
 
   @Test
   fun `should create todo lists`() {
@@ -138,6 +145,128 @@ class TodoListControllerTest {
       accept = MediaType.APPLICATION_JSON
     }.andExpect {
       status { isForbidden() }
+    }
+  }
+
+  @Test
+  fun `should be able to create an item in a list`() {
+    val input = TodoListWrite("user", "create-item-list")
+    val list = todoListService.createTodoList(input)
+
+    val dto = TodoItemCreateRequestDto(list.id, "Milk")
+    val json = objectMapper.writeValueAsString(dto)
+
+    mockMvc.post("/api/todo-lists/${list.id}/items") {
+      with(jwt())
+      contentType = MediaType.APPLICATION_JSON
+      content = json
+    }.andExpect {
+      status { isCreated() }
+      jsonPath("$.id") { isNotEmpty() }
+      jsonPath("$.listId") { value(list.id.toString()) }
+      jsonPath("$.label") { value("Milk") }
+      jsonPath("$.createdAt") { isNotEmpty() }
+      jsonPath("$.updatedAt") { isNotEmpty() }
+    }
+  }
+
+  @Test
+  fun `should be able to fetch items from a list`() {
+    val input = TodoListWrite("user", "fetch-items-list")
+    val list = todoListService.createTodoList(input)
+
+    val itemInput = TodoItemWrite(list.id, "Milk")
+    val item = todoItemService.createTodoItemsByListId(list.id, itemInput)
+
+    mockMvc.get("/api/todo-lists/${list.id}/items") {
+      with(jwt())
+      accept = MediaType.APPLICATION_JSON
+    }.andExpect {
+      status { isOk() }
+      jsonPath("$.length()") { value(1) }
+      jsonPath("$[0].id") { value(item.id.toString()) }
+    }
+  }
+
+  @Test
+  fun `should be able to update an item in a list`() {
+    val input = TodoListWrite("user", "update-item-list")
+    val list = todoListService.createTodoList(input)
+
+    val itemInput = TodoItemWrite(list.id, "Milk")
+    val item = todoItemService.createTodoItemsByListId(list.id, itemInput)
+
+    val dto = TodoItemCreateRequestDto(list.id, "Milk and Honey")
+    val json = objectMapper.writeValueAsString(dto)
+
+    mockMvc.patch("/api/todo-lists/${list.id}/items/${item.id}") {
+      with(jwt())
+      contentType = MediaType.APPLICATION_JSON
+      content = json
+    }.andExpect {
+      status { isOk() }
+      jsonPath("$.id") { value(item.id.toString()) }
+      jsonPath("$.listId") { value(list.id.toString()) }
+      jsonPath("$.label") { value("Milk and Honey") }
+      jsonPath("$.createdAt") { isNotEmpty() }
+      jsonPath("$.updatedAt") { isNotEmpty() }
+    }
+  }
+
+  @Test
+  fun `should return not found on write operations if item does not exist in list`() {
+    val input = TodoListWrite("user", "update-item-list-should-fail")
+    val list = todoListService.createTodoList(input)
+
+    val dto = TodoItemCreateRequestDto(list.id, "Milk and Honey")
+    val json = objectMapper.writeValueAsString(dto)
+
+    mockMvc.patch("/api/todo-lists/${list.id}/items/00000000-0000-0000-0000-000000000000") {
+      with(jwt())
+      contentType = MediaType.APPLICATION_JSON
+      content = json
+    }.andExpect {
+      status { isNotFound() }
+    }
+  }
+
+  @Test
+  fun `should be able to delete items from a list`() {
+    val input = TodoListWrite("user", "delete-item-list")
+    val list = todoListService.createTodoList(input)
+
+    val itemInput = TodoItemWrite(list.id, "Milk")
+    val item = todoItemService.createTodoItemsByListId(list.id, itemInput)
+
+    mockMvc.delete("/api/todo-lists/${list.id}/items/${item.id}") {
+      with(jwt())
+      accept = MediaType.APPLICATION_JSON
+    }.andExpect {
+      status { isOk() }
+      jsonPath("$.id") { value(item.id.toString()) }
+      jsonPath("$.listId") { value(list.id.toString()) }
+      jsonPath("$.label") { value("Milk") }
+      jsonPath("$.createdAt") { isNotEmpty() }
+      jsonPath("$.updatedAt") { isNotEmpty() }
+    }
+  }
+
+  @Test
+  fun `should be able to fetch deleted items from a list`() {
+    val input = TodoListWrite("user", "fetch-deleted-items-list")
+    val list = todoListService.createTodoList(input)
+
+    val itemInput = TodoItemWrite(list.id, "Milk")
+    val item = todoItemService.createTodoItemsByListId(list.id, itemInput)
+    todoItemService.deleteTodoItemById(item.id)
+
+    mockMvc.get("/api/todo-lists/${list.id}/deleted-items") {
+      with(jwt())
+      accept = MediaType.APPLICATION_JSON
+    }.andExpect {
+      status { isOk() }
+      jsonPath("$.length()") { value(1) }
+      jsonPath("$[0].id") { value(item.id.toString()) }
     }
   }
 }

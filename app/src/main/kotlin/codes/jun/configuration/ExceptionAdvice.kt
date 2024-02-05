@@ -1,6 +1,7 @@
 package codes.jun.configuration
 
 import codes.jun.once.SecretNotFoundException
+import codes.jun.todo.TodoItemNotFoundException
 import codes.jun.todo.TodoListAlreadyExistsException
 import codes.jun.todo.TodoListNotFoundException
 import org.springframework.http.HttpStatus
@@ -23,6 +24,11 @@ class ExceptionAdvice {
 
   @ExceptionHandler(TodoListNotFoundException::class)
   fun handleTodoListNotFoundException(ex: TodoListNotFoundException): ResponseEntity<Void> {
+    return ResponseEntity(HttpStatus.NOT_FOUND)
+  }
+
+  @ExceptionHandler(TodoItemNotFoundException::class)
+  fun handleTodoItemNotFoundException(ex: TodoItemNotFoundException): ResponseEntity<Void> {
     return ResponseEntity(HttpStatus.NOT_FOUND)
   }
 
