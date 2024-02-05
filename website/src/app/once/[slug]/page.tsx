@@ -10,10 +10,10 @@ import {
 } from "@mantine/core";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React from "react";
+import { secretApi } from "~/app/api";
 import { CopyButton } from "~/app/components/copy-button";
 import { GradientTitle } from "~/app/components/gradient-title";
 import { GoBackRedirect } from "~/app/components/redirect";
-import { secretApi } from "~/app/http/http";
 
 type PageParams = {
   params: {

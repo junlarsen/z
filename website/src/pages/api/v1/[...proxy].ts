@@ -1,9 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getToken } from "next-auth/jwt";
 import invariant from "tiny-invariant";
-
-export const apiEndpointRoot =
-  process.env.NEXT_PUBLIC_API_ENDPOINT ?? "http://localhost:8080";
+import { apiEndpointRoot } from "~/app/api-server";
 
 export default async function proxy(req: NextApiRequest, res: NextApiResponse) {
   invariant(req.url !== undefined, "Request did not have url");

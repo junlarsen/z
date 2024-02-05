@@ -15,9 +15,9 @@ import { CreateSecretRequest } from "@z/api-client";
 import { addMinutes } from "date-fns";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
+import { secretApi } from "~/app/api";
 import { GradientTitle } from "~/app/components/gradient-title";
 import { GoBackRedirect } from "~/app/components/redirect";
-import { secretApi } from "~/app/http/http";
 
 // TODO: Refactor out into plain OpenAPI type
 export type CreateSecretCommandInput =

@@ -14,6 +14,8 @@ declare global {
       COGNITO_CLIENT_SECRET: string;
       COGNITO_CLIENT_ISSUER: string;
       COGNITO_USER_POOL_ID: string;
+
+      NEXTAUTH_SECRET: string;
     }
   }
 }
