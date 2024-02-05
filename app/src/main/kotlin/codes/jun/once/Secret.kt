@@ -1,6 +1,8 @@
 package codes.jun.once
 
 import migrations.Secrets
+import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.ResponseStatus
 import java.time.OffsetDateTime
 import java.util.UUID
 
@@ -20,6 +22,7 @@ data class SecretWrite(
     val slug: String
 )
 
+@ResponseStatus(HttpStatus.NOT_FOUND)
 class SecretNotFoundException(id: UUID) : RuntimeException("Secret with id $id not found")
 
 fun mapToSecret(secret: Secrets): Secret = Secret(

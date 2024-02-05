@@ -1,5 +1,7 @@
 package codes.jun.todo
 
+import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.ResponseStatus
 import java.time.OffsetDateTime
 import java.util.UUID
 import migrations.Todo_items as TodoItems
@@ -18,6 +20,7 @@ data class TodoItemWrite(
     val label: String,
 )
 
+@ResponseStatus(HttpStatus.NOT_FOUND)
 class TodoItemNotFoundException(id: UUID) : RuntimeException("TodoItem with id $id not found")
 
 fun mapToTodoItem(todoItem: TodoItems): TodoItem = TodoItem(

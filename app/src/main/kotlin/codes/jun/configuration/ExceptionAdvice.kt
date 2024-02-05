@@ -16,24 +16,4 @@ class ExceptionAdvice {
   fun handleMethodArgumentNotValidException(ex: MethodArgumentNotValidException): ResponseEntity<Void> {
     return ResponseEntity(HttpStatus.BAD_REQUEST)
   }
-
-  @ExceptionHandler(TodoListAlreadyExistsException::class)
-  fun handleTodoListAlreadyExistsException(ex: TodoListAlreadyExistsException): ResponseEntity<Void> {
-    return ResponseEntity(HttpStatus.CONFLICT)
-  }
-
-  @ExceptionHandler(TodoListNotFoundException::class)
-  fun handleTodoListNotFoundException(ex: TodoListNotFoundException): ResponseEntity<Void> {
-    return ResponseEntity(HttpStatus.NOT_FOUND)
-  }
-
-  @ExceptionHandler(TodoItemNotFoundException::class)
-  fun handleTodoItemNotFoundException(ex: TodoItemNotFoundException): ResponseEntity<Void> {
-    return ResponseEntity(HttpStatus.NOT_FOUND)
-  }
-
-  @ExceptionHandler(SecretNotFoundException::class)
-  fun handleSecretNotFoundException(ex: SecretNotFoundException): ResponseEntity<Void> {
-    return ResponseEntity(HttpStatus.NOT_FOUND)
-  }
 }
