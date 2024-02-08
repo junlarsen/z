@@ -31,7 +31,7 @@ dependencies {
   implementation("org.springframework.security:spring-security-oauth2-resource-server")
   implementation("org.springframework.security:spring-security-oauth2-jose")
 
-  implementation("org.flywaydb:flyway-core:10.7.1")
+  implementation("org.flywaydb:flyway-core:10.7.2")
   implementation("org.flywaydb:flyway-database-postgresql:10.7.2")
   implementation("org.postgresql:postgresql:42.7.1")
   implementation("app.cash.sqldelight:jdbc-driver:2.1.0-SNAPSHOT")
