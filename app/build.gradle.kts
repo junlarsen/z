@@ -5,7 +5,7 @@ plugins {
   id("org.springframework.boot") version "3.2.2"
   id("io.spring.dependency-management") version "1.1.4"
   id("app.cash.sqldelight") version "2.1.0-SNAPSHOT"
-  id("org.flywaydb.flyway") version "10.7.1"
+  id("org.flywaydb.flyway") version "10.7.2"
   id("org.openapi.generator") version "7.2.0"
   id("org.springdoc.openapi-gradle-plugin") version "1.8.0"
   application
