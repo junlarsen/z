@@ -33,8 +33,8 @@
   "devDependencies": {
     "@biomejs/biome": "^1.5.3",
     "@types/node": "^20.11.16",
-    "@types/react": "^18.2.53",
-    "@types/react-dom": "^18.2.18",
+    "@types/react": "^18.2.73",
+    "@types/react-dom": "^18.2.22",
     "postcss": "^8.4.33",
     "postcss-preset-mantine": "^1.13.0",
     "postcss-simple-vars": "^7.0.1",
