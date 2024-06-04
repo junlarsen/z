@@ -10,7 +10,7 @@
     "fmt": "turbo run fmt"
   },
   "devDependencies": {
-    "turbo": "^1.12.2"
+    "turbo": "^1.13.4"
   },
   "engines": {
     "node": ">=20.11"
