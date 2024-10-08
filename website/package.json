@@ -38,6 +38,6 @@
     "postcss": "^8.4.33",
     "postcss-preset-mantine": "^1.13.0",
     "postcss-simple-vars": "^7.0.1",
-    "typescript": "^5.3.3"
+    "typescript": "^5.6.3"
   }
 }
